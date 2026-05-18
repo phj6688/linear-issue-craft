@@ -1,0 +1,110 @@
+# Anti-patterns
+
+The most common ways AI-drafted Linear issues drift away from this style. Each row pairs a generic-AI failure with the specific in-style fix.
+
+## Title-level
+
+| AI default | In-style fix |
+|---|---|
+| "Improve search performance" | "Add LRU cache to `/search`; target p95 < 200ms on 10k-event corpus" |
+| "Refactor moderation service" | "Harden `openai-moderation.service.ts`: fail-open, input validation, log leaks" |
+| "Implement SEO best practices" | "SEO foundations: robots.ts, sitemap.ts, metadataBase, canonicals, Organization JSON-LD" |
+| "Set up async job processing" | "Stand up Trigger.dev v3 in `api/` with first reference job + CI deploy" |
+| "Improve dynamic pricing logic for venues" | "Venue — Demand forecasting + AI-suggested dynamic ticket pricing (highest-leverage)" |
+| "Various UX improvements" | (Decompose into one issue per surface; do not file the bundled version.) |
+
+## Description-level
+
+### "Press release" opening
+**AI default:** "This issue adds a hardened security header layer to the web app, providing defense in depth against XSS, clickjacking, and information disclosure attacks."
+
+**In-style fix:** Open with the current-state deficiency, not the future state.
+> `web/next.config.ts` only sets `Content-Type` headers for app-link well-knowns. There is no Content-Security-Policy, no HSTS, no X-Frame-Options, no Referrer-Policy, no Permissions-Policy. These are baseline expectations for a 2026 production web app.
+
+### Vague requirements
+**AI default:**
+> 1. Implement caching layer
+> 2. Add monitoring
+> 3. Document the change
+
+**In-style fix:** every requirement is one grep-able action with a file path.
+> 1. Create `api/src/lib/openai-client.ts` exporting `getOpenAIClient()` that returns an OpenAI client configured with `baseURL: https://oai.helicone.ai/v1` and the Helicone auth header set from `HELICONE_API_KEY`.
+> 2. Refactor every OpenAI import in `api/src/` to use the new wrapper; verify with `rg "from 'openai'"` returning hits only in `openai-client.ts`.
+
+### Decoupled acceptance criteria
+**AI default:** A separate list of "tests should pass" with no mapping back to requirements.
+
+**In-style fix:** every AC names which Requirements it validates.
+> 1. **Validates R1 + R2**: A test call from `api/` shows up in the Helicone dashboard within 10s with model, tokens, and cost; `rg "from 'openai'"` outside `openai-client.ts` returns zero hits.
+
+### Missing soak / integration AC
+**AI default:** All ACs are unit-style.
+
+**In-style fix:** the last AC is always a holistic integration check.
+> 4. **Validates all**: A 24h soak in staging shows zero "fallback to direct OpenAI" log lines.
+
+## Voice-level
+
+### Em-dashes in prose
+**AI default:** "The proxy adds an observability layer — including cost, latency, and error rates per feature — without changing business logic."
+
+**In-style fix:** rewrite without the em-dash.
+> The proxy adds an observability layer (cost, latency, and error rates per feature) without changing business logic.
+
+### Apology / hedge
+**AI default:** "It's worth noting that there might be some edge cases around rate limiting that we should probably handle."
+
+**In-style fix:** state the issue directly.
+> The retry path doesn't distinguish 429s from 5xx; both currently fail open.
+
+### Self-congratulation
+**AI default:** "This comprehensive, production-ready implementation provides robust handling of all edge cases."
+
+**In-style fix:** delete the entire sentence. Show, don't tell.
+
+### Generic outcomes
+**AI default:**
+> ## Outcomes
+> * Improved security
+> * Better performance
+> * Cleaner code
+
+**In-style fix:** every outcome is observable from outside the team.
+> ## Outcomes
+> * The site has a valid `robots.txt` and `sitemap.xml` covering events, public profiles, and marketing routes.
+> * Every page has a canonical URL; filterable surfaces (`/events?genre=…`) don't create duplicate-content problems.
+
+## Structural
+
+### Bundled scope
+**Signal:** Story body has more than 6 requirements, or two distinct surfaces (`api/` and `web/`).
+**Fix:** split into siblings. Reference the new sibling in the original Description.
+
+### Missing Out-of-scope on epics
+**Signal:** Epic doesn't say what it isn't.
+**Fix:** Add 1–3 "Out of scope" bullets naming the adjacent surfaces a reader might assume are included.
+
+### Hardening ticket without per-issue Fix line
+**Signal:** Issues are listed but no `**Fix:**` callouts.
+**Fix:** every numbered issue ends with `**Fix:** <one-line proposed change>`. This lets a reviewer scan and triage in one pass.
+
+### Story without "Epic:" backlink
+**Signal:** The story stands alone with no parent reference.
+**Fix:** Add `**Epic:** <Epic name>` as the first line of the body. Linear's parent relation alone is not enough — PR descriptions and exports lose it.
+
+## Labels / priority
+
+| AI default | In-style fix |
+|---|---|
+| Labels: `frontend`, `backend`, `urgent` | Labels: `web`, `api`, plus capabilities (`compliance`, `ai`, …) |
+| Priority: Urgent (because user mentioned it twice) | Priority: High if security/infra/epic; otherwise Medium. |
+| Priority: High (because it's a big feature) | Priority: Medium if user-facing feature; only High if it gates compliance/security. |
+
+## When in doubt
+
+If a draft feels generic or sycophantic when you read it back, the easiest fixes are:
+
+1. Add 2–3 file paths in the Description.
+2. Replace any "improve / enhance / optimize" verb with a metric-named action.
+3. Add the current-state diagnosis sentence to the top.
+4. Remove every adjective that describes the change itself ("comprehensive", "robust", "thoughtful").
