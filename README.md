@@ -27,7 +27,7 @@ skill/
 | Archetype | Title shape | Body sections |
 |---|---|---|
 | **Epic** | `Epic: <Domain>` | Goal · Outcomes · Out of scope · Stories under this epic |
-| **Story** | imperative verb + concrete deliverable, or `<Role> — <Capability>` | (epic backlink) · User Story · Description · Requirements · Acceptance Criteria |
+| **Story** | imperative verb + concrete deliverable, or `<Role> — <Capability>` | (epic backlink) · User Story · Problem · Solution · Requirements · Evaluation |
 | **Hardening** | `Harden <file.ts>: <symptom1>, <symptom2>, <symptom3>` | Summary · Issues (numbered, each with **Fix:**) |
 
 ## How to use it

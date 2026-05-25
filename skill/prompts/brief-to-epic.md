@@ -65,10 +65,11 @@ Use the Epic template from `references/02-description-templates.md`. Fill in:
 
 Use the Story template from `references/02-description-templates.md` for each child. Confirm:
 
-- Each story has a `**Epic:** <Epic name>` backlink.
+- Each story has a `**Epic:** <Epic name>` backlink and a `**Title:** <verbatim title>` line below it.
+- The body is shaped as **User Story / Problem / Solution / Requirements / Evaluation** (or the bundled-concept variant if two primitives ship together).
 - Requirements list 3–6 grep-able actions with file paths.
-- ACs map back to requirements with `**Validates R<n>**:` prefixes.
-- Last AC is a soak/integration check.
+- Evaluation items map back to requirements with `**Validates R<n>**:` prefixes.
+- The last Evaluation item is a soak/integration check.
 
 ## Step 6 — Show to user before filing
 

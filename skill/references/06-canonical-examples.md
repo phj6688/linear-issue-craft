@@ -1,6 +1,6 @@
 # Canonical examples
 
-Three verbatim shipped issues. Treat these as the gold standard — when in doubt, structure your draft to match the example whose archetype you're writing.
+Four verbatim shipped issues, one per archetype shape. Treat these as the gold standard — when in doubt, structure your draft to match the example whose archetype you're writing.
 
 Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, structure, and body content are otherwise unchanged from real shipped issues.
 
@@ -63,7 +63,11 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 >
 > As an operator, I want every LLM call routed through an observability gateway, so that I can see real-time cost, latency, and error rates per feature and catch runaway spend before it shows up on a bill.
 >
-> ## Description
+> ## Problem
+>
+> Today every OpenAI call in `api/src/` imports the raw `openai` SDK and hits the API directly. There is no per-feature cost slice, no latency dashboard, and no shared place to enforce rate-limit or retry policy. If `moderation` or any future LLM feature suddenly burns through tokens, the first signal is the monthly bill.
+>
+> ## Solution
 >
 > Add Helicone as a transparent proxy in front of OpenAI. The existing `api/src/services/openai-moderation.service.ts` and any future LLM caller imports a small `getOpenAIClient()` wrapper that points `baseURL` at Helicone with the org's API key. This is one config change, no business-logic refactor.
 >
@@ -74,7 +78,7 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 > 3. Tag each LLM call with a `Helicone-Property-Feature` header (e.g., `moderation`, `support-triage`, `event-tagging`) so cost can be sliced per feature in the dashboard.
 > 4. Add `HELICONE_API_KEY` to the secret manager (dev) and the host secrets (staging + prod); document in `docs/guides/AI_PLATFORM_GUIDE.md`.
 >
-> ## Acceptance Criteria
+> ## Evaluation
 >
 > 1. **Validates R1 + R2**: A test call from `api/` shows up in the Helicone dashboard within 10s with model, tokens, and cost; `rg "from 'openai'"` outside `openai-client.ts` returns zero hits.
 > 2. **Validates R3**: Helicone dashboard "Properties" view groups calls by feature and shows distinct cost per feature.
@@ -83,9 +87,10 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 
 **What to imitate:**
 - Header lines (`**Epic:**`, `**Title:**`) repeat the parent link and title before the User Story.
-- Description names the file path being touched and ends with a simplifying constraint ("This is one config change, no business-logic refactor.").
+- **Problem** diagnoses the current-state gap before introducing the fix; it names the file paths and the failure surface.
+- **Solution** names the chosen mechanism and ends with a simplifying constraint ("This is one config change, no business-logic refactor.").
 - Each Requirement is one concrete grep-able action.
-- Each AC explicitly cites which Requirements it validates; the final AC is a soak/integration check.
+- Each Evaluation item explicitly cites which Requirements it validates; the final item is a soak/integration check.
 
 ---
 
@@ -133,3 +138,62 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 - Each numbered issue includes line numbers in the header.
 - Each issue is 2–4 sentences of plain-language explanation, then a `**Fix:**` line.
 - The `**Fix:**` line is one or two sentences, not a paragraph.
+
+---
+
+## Example 4 — Bundled-concept Story (PROJ-22)
+
+**Title:** `AI rollout safety: prompt evals + feature flags`
+
+**Labels:** `api`, `ai`, `tech-debt`
+**Priority:** High (status: Done)
+**Parent:** `Epic: AI Foundation / Platform infra`
+
+**Body:**
+
+> **Epic:** AI Foundation / Platform infra
+> **Title:** AI rollout safety: prompt evals + feature flags
+>
+> ## User Story
+>
+> As an engineer rolling out a new AI feature, I want to (a) evaluate prompt/model changes against a fixed test suite before shipping and (b) gate features by user, % rollout, or environment, so that I can iterate on prompts safely and roll back instantly without a deploy.
+>
+> ## Problem
+>
+> Two related primitives are missing from the AI platform today. Without an eval suite, every prompt or model swap is a guess. Without runtime feature flags, every AI rollout is an all-or-nothing deploy. Together they form the "ship AI safely" baseline that every downstream AI story should inherit from Day 1.
+>
+> ### Concept 1 — Eval framework (`promptfoo` or `evalite`)
+>
+> **Problem:** When you change an LLM prompt or swap a model (GPT-4, Claude, Llama Guard), how do you know if quality went up or down? Without evals, you guess from a few manual tests and hope.
+>
+> **Solution:** A test suite, like unit tests but for LLM outputs. Curate ~50 example cases (e.g., "this message contains harassment, should flag"; "this normal message, should NOT flag"). Every prompt or model change runs the suite automatically and reports "old config: 87% correct, new config: 91% correct" before the change ships. Same mental model as `pnpm test` for normal code, just for AI quality.
+>
+> ### Concept 2 — Postgres-backed feature flags
+>
+> **Problem:** Ship a new AI feature, flip on for 100% of users, bug surfaces or OpenAI bill 10x's overnight. To turn it off you have to deploy a code change. Slow and scary.
+>
+> **Solution:** A `feature_flags` table in Postgres with `key`, `enabled`, `rollout_pct`, `user_allowlist`. Code checks `if (isEnabled('feature-x', userId))` before invoking the feature. To kill it in prod: change one row in the DB. To roll out 1%, 10%, 100%: change `rollout_pct`. To enable for just internal accounts: add to `user_allowlist`. No new vendor (LaunchDarkly, GrowthBook), leverages our existing Supabase Postgres for what's currently a small ask.
+>
+> ### Why bundled
+>
+> Both wrap every future AI story. Splitting would create cross-cutting drift, engineers might add an AI feature without an eval, or without a flag. Bundling means "Day 1 you get both, every new AI story uses both."
+>
+> ## Requirements
+>
+> 1. Initialize `promptfoo` config in `api/evals/` with baseline cases for the current moderation categories (harassment, hate, sexual, violence) and a CI step that runs evals on PRs touching `api/src/services/openai-moderation.service.ts` or any prompt file.
+> 2. Add a `feature_flags` Prisma model (`key`, `enabled`, `rollout_pct`, `user_allowlist`, `env`, `updated_at`); seed flags for every AI feature shipped after this story.
+> 3. Implement `api/src/services/feature-flags.service.ts` with `isEnabled(key, { userId, env })` returning a boolean; cache reads in-memory with 60s TTL.
+> 4. Document the eval-on-PR workflow and flag-gating convention in `docs/guides/AI_PLATFORM_GUIDE.md`.
+>
+> ## Evaluation
+>
+> 1. **Validates R1**: `pnpm eval` in `api/` runs the baseline suite and prints a pass/fail summary; CI step fails the PR if any baseline case regresses.
+> 2. **Validates R2**: Migration creates `feature_flags`; seed inserts a sample flag (e.g., `chat-moderation-async`) with `rollout_pct: 0`.
+> 3. **Validates R3**: A unit test confirms `isEnabled` honors `enabled`, `rollout_pct` (deterministic hash on userId), `user_allowlist`, and `env`.
+> 4. **Validates R4**: Guide documents (a) the eval-on-PR workflow, (b) the convention "every AI feature ships behind a flag, default off", (c) the rollback path (toggle flag in DB).
+
+**What to imitate:**
+- The top-level **Problem** section frames the shared gap, then introduces the bundle in one sentence.
+- Each **Concept** has its own bolded `**Problem:**` and `**Solution:**` mini-frames; analogies and sentence fragments ("Slow and scary.", "Same mental model as `pnpm test`") are welcome here.
+- A `### Why bundled` block justifies the bundling and is the explicit signal that splitting would cause drift.
+- Requirements and Evaluation stay at H2 even with multiple concepts, with each Requirement still being one grep-able action.

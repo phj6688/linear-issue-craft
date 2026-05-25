@@ -66,15 +66,16 @@ Imitate the rhythm: subject + must + comma-list of obligations.
 | Issue type | Body length | Sections |
 |---|---|---|
 | Epic | 200–500 words | Goal · Outcomes · Out of scope · Stories under this epic |
-| Story (simple) | 100–250 words | Epic backlink · User Story · Description · Requirements (3–4) · Acceptance Criteria (3–4) |
+| Story (simple) | 100–250 words | Epic backlink · User Story · Problem · Solution · Requirements (3–4) · Evaluation (3–4) |
 | Story (complex infra) | 250–500 words | Same sections, denser Requirements (5–6) |
+| Story (bundled-concept) | 300–600 words | Epic backlink · User Story · Problem (intro) · Concept blocks (each with bolded **Problem:** + **Solution:**) · Why bundled · Requirements · Evaluation |
 | Hardening | 200–400 words | Summary · Issues (3–5 numbered items) |
 
 Going past 500 words is a code smell — you're probably bundling two issues.
 
 ## Reading test
 
-After drafting, read the title + Goal/Description paragraph out loud. Can a reviewer who has never seen the code:
+After drafting, read the title + Goal (epic) or Problem (story) paragraph out loud. Can a reviewer who has never seen the code:
 
 1. Tell you the file or surface being changed?
 2. Tell you the deficiency being fixed?

@@ -13,12 +13,17 @@ The most common ways AI-drafted Linear issues drift away from this style. Each r
 | "Improve dynamic pricing logic for venues" | "Venue — Demand forecasting + AI-suggested dynamic ticket pricing (highest-leverage)" |
 | "Various UX improvements" | (Decompose into one issue per surface; do not file the bundled version.) |
 
-## Description-level
+## Body-level
 
-### "Press release" opening
+### Collapsed Problem and Solution
+**AI default:** A single `## Description` blob that mixes "today the system has no X" with "we will build Y" in one paragraph.
+
+**In-style fix:** Split into `## Problem` (current-state diagnosis only) and `## Solution` (what we are building, ending with a simplifying constraint). A reader skimming the headers should be able to answer "what's broken" and "what's the fix" without reading the prose.
+
+### "Press release" opening in Problem
 **AI default:** "This issue adds a hardened security header layer to the web app, providing defense in depth against XSS, clickjacking, and information disclosure attacks."
 
-**In-style fix:** Open with the current-state deficiency, not the future state.
+**In-style fix:** Open `## Problem` with the current-state deficiency, not the future state.
 > `web/next.config.ts` only sets `Content-Type` headers for app-link well-knowns. There is no Content-Security-Policy, no HSTS, no X-Frame-Options, no Referrer-Policy, no Permissions-Policy. These are baseline expectations for a 2026 production web app.
 
 ### Vague requirements
@@ -31,17 +36,21 @@ The most common ways AI-drafted Linear issues drift away from this style. Each r
 > 1. Create `api/src/lib/openai-client.ts` exporting `getOpenAIClient()` that returns an OpenAI client configured with `baseURL: https://oai.helicone.ai/v1` and the Helicone auth header set from `HELICONE_API_KEY`.
 > 2. Refactor every OpenAI import in `api/src/` to use the new wrapper; verify with `rg "from 'openai'"` returning hits only in `openai-client.ts`.
 
-### Decoupled acceptance criteria
+### Decoupled Evaluation
 **AI default:** A separate list of "tests should pass" with no mapping back to requirements.
 
-**In-style fix:** every AC names which Requirements it validates.
+**In-style fix:** every Evaluation item names which Requirements it validates.
 > 1. **Validates R1 + R2**: A test call from `api/` shows up in the Helicone dashboard within 10s with model, tokens, and cost; `rg "from 'openai'"` outside `openai-client.ts` returns zero hits.
 
-### Missing soak / integration AC
-**AI default:** All ACs are unit-style.
+### Missing soak / integration check
+**AI default:** All Evaluation items are unit-style.
 
-**In-style fix:** the last AC is always a holistic integration check.
+**In-style fix:** the last item is always a holistic integration check.
 > 4. **Validates all**: A 24h soak in staging shows zero "fallback to direct OpenAI" log lines.
+
+### Section name drift ("Acceptance Criteria" instead of "Evaluation")
+**Signal:** Story ends with `## Acceptance Criteria` instead of `## Evaluation`.
+**Fix:** Rename to `## Evaluation`. The shape is identical (each item still cites which Requirement it validates), but the house-style header is `Evaluation`.
 
 ## Voice-level
 
@@ -76,9 +85,13 @@ The most common ways AI-drafted Linear issues drift away from this style. Each r
 
 ## Structural
 
-### Bundled scope
+### Bundled scope (wrong)
 **Signal:** Story body has more than 6 requirements, or two distinct surfaces (`api/` and `web/`).
-**Fix:** split into siblings. Reference the new sibling in the original Description.
+**Fix:** split into siblings. Reference the new sibling in the original Problem section.
+
+### Bundled scope (right, but uncategorized)
+**Signal:** Two related primitives ship together because splitting would let the team forget one, but the body is one undifferentiated `## Description` paragraph.
+**Fix:** use the bundled-concept variant from `02-description-templates.md`. Frame the shared problem in `## Problem`, then break the body into `### Concept 1` / `### Concept 2` blocks (each with bolded `**Problem:**` and `**Solution:**`), then `### Why bundled`.
 
 ### Missing Out-of-scope on epics
 **Signal:** Epic doesn't say what it isn't.
@@ -104,7 +117,7 @@ The most common ways AI-drafted Linear issues drift away from this style. Each r
 
 If a draft feels generic or sycophantic when you read it back, the easiest fixes are:
 
-1. Add 2–3 file paths in the Description.
+1. Add 2–3 file paths in the Problem section.
 2. Replace any "improve / enhance / optimize" verb with a metric-named action.
 3. Add the current-state diagnosis sentence to the top.
 4. Remove every adjective that describes the change itself ("comprehensive", "robust", "thoughtful").

@@ -18,7 +18,7 @@ Every issue is one of three shapes. Identify the archetype first — it determin
 | Archetype | When to use | Title shape | Body sections |
 |---|---|---|---|
 | **Epic** | Strategic surface, 2–8 child stories, shared infra/domain | `Epic: <Domain>` | Goal · Outcomes · Out of scope · Stories under this epic |
-| **Story** | One PR, one acceptance test, one service/surface | imperative verb + concrete deliverable, or `<Role> — <Capability>` | (epic backlink) · User Story · Description · Requirements · Acceptance Criteria |
+| **Story** | One PR, one acceptance test, one service/surface | imperative verb + concrete deliverable, or `<Role> — <Capability>` | (epic backlink) · User Story · Problem · Solution · Requirements · Evaluation |
 | **Hardening** | Multiple vulnerabilities/bugs in one file/service | `Harden <file.ts>: <symptom1>, <symptom2>, <symptom3>` | Summary · Issues (numbered, each with **Fix:**) |
 
 If a request doesn't fit one of these three, **stop and decompose** before writing. A "let's also rework X while we're at it" is a sibling story, not a bolted-on requirement.
