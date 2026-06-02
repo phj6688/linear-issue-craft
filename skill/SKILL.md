@@ -94,7 +94,7 @@ python3 scripts/validate_issue.py <draft-file>      # or pipe the draft on stdin
 
 It must exit 0. It enforces: em-dash in prose, vague verbs ("improve"/"enhance"/"optimize") without a target metric, AI tells and `Co-Authored-By`, section names and order per archetype (catches `Description`/`Acceptance Criteria` drift), hardening `**Fix:**` lines, epic story count (2 to 8), label shape, and trailing-period titles. Fix every ERROR before showing the draft. WARNs do not block, but read them.
 
-This is a gate, not a mental note. Do not show the user a draft you have not run through the validator. If you cannot run Python, walk the same checks by hand, but the script is the standard.
+This is a gate, not a mental note. Do not show the user a draft you have not run through the validator. If `python3` is unavailable, that is a blocker to resolve (the script is stdlib-only, no install needed), not a reason to skip the gate.
 
 ### Gate 2: judgment checks (you, not the script)
 

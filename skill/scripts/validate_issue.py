@@ -22,8 +22,7 @@ import re
 import sys
 from dataclasses import dataclass
 
-EM_DASH = "—"  # — banned in prose
-EN_DASH = "–"  # – tolerated only in numeric ranges (2–4)
+EM_DASH = "—"  # banned in prose; en-dash (–) is tolerated in numeric ranges, so not checked
 
 # Lines that may legitimately carry an em-dash: role-prefixed titles and the
 # header fields that echo a (possibly role-prefixed) title. The house style
@@ -169,7 +168,7 @@ def check_title(block, out):
     if words < 4 or words > 16:
         out.append(Violation("WARN", block.start_line, "title-length",
                    f"Title is {words} words; aim for 6-14 (longer usually means bundling)."))
-    if block.archetype == "hardening" and not re.match(r"^Harden(ed)?\b", t):
+    if block.archetype == "hardening" and not re.match(r"^Harden(ed)?\b", t, re.IGNORECASE):
         out.append(Violation("WARN", block.start_line, "title-harden",
                    'Hardening title should start with "Harden <stem>: <symptoms>".'))
 
