@@ -96,7 +96,7 @@ Drafted as a refactor story because the change preserves behavior and touches a 
 <full body>
 ```
 
-Wait for explicit approval. Then file with `mcp__linear-server__save_issue`. Do not silently bundle in any unrelated cleanup.
+Wait for explicit approval, and run the validator (Gate 1) on the draft first. Then file with your Linear MCP `save_issue` tool (e.g. `mcp__linear__save_issue`). Do not silently bundle in any unrelated cleanup.
 
 ## Common mistakes to avoid
 

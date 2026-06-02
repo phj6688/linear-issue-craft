@@ -4,7 +4,7 @@ Use this when the user gives you a one-paragraph idea ("I want to add a referral
 
 ## Step 1 — Restate as a deficiency
 
-Before writing anything, rephrase the user's brief as a current-state deficiency. The first sentence of the future epic's Goal must read like: "Today, <surface> has no <capability>. <Concrete missing artifacts>." If you can't write that sentence, you don't understand the brief yet — ask the user one clarifying question.
+Before writing anything, rephrase the user's brief as a current-state deficiency. The first sentence of the future epic's Goal must read like: "Today, <surface> has no <capability>. <Concrete missing artifacts>." Ask the user one clarifying question if you cannot write that sentence, OR if the brief does not pin down the scope: the platform, the v1 feature set, or the target surface. A structurally valid epic built on invented scope ("launch a mobile app" with no platform and no feature list) is worse than asking. Do not fabricate the product decisions.
 
 Test cases:
 
@@ -56,9 +56,9 @@ Use the Epic template from `references/02-description-templates.md`. Fill in:
 
 ## Stories under this epic
 
-* Story 1 — <full child story title>
-* Story 2 — <full child story title>
-* Story 3 — <full child story title>
+* Story 1: <full child story title>
+* Story 2: <full child story title>
+* Story 3: <full child story title>
 ```
 
 ## Step 5 — Draft each child story body
@@ -111,7 +111,7 @@ I'm proposing **<N> child stories** under this epic. Archetype is **<epic vs. pe
 (repeat for each story)
 ```
 
-Wait for explicit user approval. Then — and only then — call `mcp__linear-server__save_issue` per item. Set `parentId` to the epic's ID on each child.
+Wait for explicit user approval, and run the validator (Gate 1) on every issue first. Only then, call your Linear MCP `save_issue` tool (e.g. `mcp__linear__save_issue`) per item. Set `parentId` to the epic's ID on each child.
 
 ## Step 7 — File and report
 

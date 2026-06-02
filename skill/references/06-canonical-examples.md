@@ -34,9 +34,9 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 >
 > ## Stories under this epic
 >
-> * Story 1 — SEO foundations: robots.ts, sitemap.ts, metadataBase, canonicals, Organization JSON-LD
-> * Story 2 — Schema.org Event JSON-LD on event detail pages
-> * Story 3 — Dynamic OG image generation per event
+> * Story 1: SEO foundations: robots.ts, sitemap.ts, metadataBase, canonicals, Organization JSON-LD
+> * Story 2: Schema.org Event JSON-LD on event detail pages
+> * Story 3: Dynamic OG image generation per event
 
 **What to imitate:**
 - First sentence diagnoses the gap with file paths.
