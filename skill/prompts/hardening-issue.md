@@ -14,7 +14,7 @@ If unsure: if the fix for each issue is ≤ 1 line of code or one config edit, b
 For each defect the user surfaces, capture:
 
 - **Symptom name** (2–5 words, noun phrase): "Fail-open on API errors", "No URL validation on imageUrl", "Error objects may leak content to logs".
-- **Location** (file + line range): `lines 42-45, 73-76, 111-113`.
+- **Location** (file, plus line range when the source provides one): `lines 42-45, 73-76, 111-113`.
 - **Plain-language description** (2–4 sentences): what the code does, what's wrong, who could exploit it / what consumer impact.
 - **Proposed fix** (1–2 sentences): the concrete change.
 
@@ -92,4 +92,4 @@ Drafted as a single Hardening ticket because all <N> issues live in `<file>` and
 - **Missing per-issue `**Fix:**` line.** Every numbered issue must end with a Fix callout. Without it the ticket is just a bug list.
 - **Mixing security and non-security issues without flagging.** If you bundle both, the Summary's severity calibration must call this out explicitly ("Issues 1–2 are security; issues 3–4 are defensive cleanup.").
 - **Generic symptom names.** "Bug in input handling" is rejected. "No upper-bound length check on text input" is accepted.
-- **Skipping line numbers.** Always include `(lines X–Y)` in the issue header — reviewers will scan for them.
+- **Inventing line numbers.** Include `(lines X-Y)` in the issue header when the source gives them; reviewers scan for them. If the input has no line numbers, omit them rather than fabricating ranges.

@@ -25,9 +25,9 @@ Each archetype has a fixed body skeleton. The headings appear in the order shown
 
 ## Stories under this epic
 
-* Story 1 — <story title verbatim>
-* Story 2 — <story title verbatim>
-* Story 3 — <story title verbatim>
+* Story 1: <story title verbatim>
+* Story 2: <story title verbatim>
+* Story 3: <story title verbatim>
 ```
 
 **Why each section:**
@@ -77,7 +77,7 @@ As a <role>, I want <capability>, so that <outcome>.
 
 **Why each section:**
 - **Epic** backlink keeps Linear's parent relation visible in PR descriptions, exports, and search. **Title** restates the issue title verbatim so the body remains self-identifying when copied out of Linear.
-- **User Story** is the only place where "As X, I want Y, so Z" is allowed. Forces the writer to name the persona and the *so-that* outcome.
+- **User Story** is the only place where "As X, I want Y, so Z" is allowed. Forces the writer to name the persona and the *so-that* outcome. The persona must be a role the project actually uses: confirm the term against the repo, its docs, or existing issues before writing it. A named-but-invented persona ("operator", "admin") looks concrete and slips past the abstract-noun check, so it is called out explicitly. If the project calls them "users", write "user".
 - **Problem** diagnoses current state. Always names the file/service/component being touched. Never leads with the fix.
 - **Solution** explains what we are building and the approach. Always ends with a simplifying constraint or scope cap so reviewers can see the boundary.
 - **Requirements** are imperative. Each one is a single concrete action a reviewer can grep for in the diff.
