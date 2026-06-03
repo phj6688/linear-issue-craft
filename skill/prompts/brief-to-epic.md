@@ -2,22 +2,22 @@
 
 Use this when the user gives you a one-paragraph idea ("I want to add a referrals system", "we need to harden the auth layer", "let's bootstrap analytics") and wants a filed epic plus its child stories.
 
-## Step 1 — Restate as a deficiency
+## Step 1: Restate as a deficiency
 
 Before writing anything, rephrase the user's brief as a current-state deficiency. The first sentence of the future epic's Goal must read like: "Today, <surface> has no <capability>. <Concrete missing artifacts>." Ask the user one clarifying question if you cannot write that sentence, OR if the brief does not pin down the scope: the platform, the v1 feature set, or the target surface. A structurally valid epic built on invented scope ("launch a mobile app" with no platform and no feature list) is worse than asking. Do not fabricate the product decisions.
 
 Test cases:
 
 - Brief: "Add referrals." → "Today, the web app has no referrer attribution; we don't capture `?ref=` query params, don't persist a referrer cookie, and don't surface referrer in any user record."
-- Brief: "Improve onboarding." → ask: "Which surface — `/register`, the mobile first-run flow, or the venue/promoter operator wizards?"
+- Brief: "Improve onboarding." → ask: "Which surface: `/register`, the mobile first-run flow, or the venue/promoter operator wizards?"
 
-## Step 2 — Identify the domain and scope
+## Step 2: Identify the domain and scope
 
 Pick ONE domain label (`api` / `web` / `mobile`) for the epic. If the brief crosses domains, the epic is cross-cutting and its child stories will be split per-domain (one child per domain at most).
 
 Decide which capability labels apply (`ai` / `seo` / `compliance` / `tech-debt` / `ui-ux`). The epic always carries `epic`.
 
-## Step 3 — Decompose into 2–8 child stories
+## Step 3: Decompose into 2–8 child stories
 
 Each child must satisfy:
 
@@ -31,9 +31,9 @@ Common decomposition patterns:
 - **Per-role / per-surface:** one story per persona or per CRUD surface. (e.g., role-specific AI epic: artist → venue → promoter → operator → all roles.)
 - **Sequential dependencies:** queue → observability → first job. (e.g., AI Foundation epic.)
 
-If the decomposition produces more than 8 stories, the epic is too big — propose splitting it into two epics. If it produces fewer than 2, it's a story, not an epic.
+If the decomposition produces more than 8 stories, the epic is too big, so propose splitting it into two epics. If it produces fewer than 2, it's a story, not an epic.
 
-## Step 4 — Draft the epic body
+## Step 4: Draft the epic body
 
 Use the Epic template from `references/02-description-templates.md`. Fill in:
 
@@ -44,7 +44,7 @@ Use the Epic template from `references/02-description-templates.md`. Fill in:
 
 ## Outcomes
 
-* <Externally observable outcome 1 — name the file/endpoint/page that will exist after.>
+* <Externally observable outcome 1: name the file/endpoint/page that will exist after.>
 * <Externally observable outcome 2.>
 * <Externally observable outcome 3.>
 * <… up to 6.>
@@ -61,7 +61,7 @@ Use the Epic template from `references/02-description-templates.md`. Fill in:
 * Story 3: <full child story title>
 ```
 
-## Step 5 — Draft each child story body
+## Step 5: Draft each child story body
 
 Use the Story template from `references/02-description-templates.md` for each child. Confirm:
 
@@ -71,7 +71,7 @@ Use the Story template from `references/02-description-templates.md` for each ch
 - Evaluation items map back to requirements with `**Validates R<n>**:` prefixes.
 - The last Evaluation item is a soak/integration check.
 
-## Step 6 — Show to user before filing
+## Step 6: Show to user before filing
 
 Output one consolidated draft showing:
 
@@ -113,7 +113,7 @@ I'm proposing **<N> child stories** under this epic. Archetype is **<epic vs. pe
 
 Wait for explicit user approval, and run the validator (Gate 1) on every issue first. Only then, call your Linear MCP `save_issue` tool (e.g. `mcp__linear__save_issue`) per item. Set `parentId` to the epic's ID on each child.
 
-## Step 7 — File and report
+## Step 7: File and report
 
 After filing, report back with:
 

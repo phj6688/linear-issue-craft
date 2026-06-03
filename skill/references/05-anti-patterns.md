@@ -103,7 +103,7 @@ The most common ways AI-drafted Linear issues drift away from this style. Each r
 
 ### Story without "Epic:" backlink
 **Signal:** The story stands alone with no parent reference.
-**Fix:** Add `**Epic:** <Epic name>` as the first line of the body. Linear's parent relation alone is not enough — PR descriptions and exports lose it.
+**Fix:** Add `**Epic:** <Epic name>` as the first line of the body. Linear's parent relation alone is not enough: PR descriptions and exports lose it.
 
 ## Labels / priority
 

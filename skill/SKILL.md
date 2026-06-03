@@ -5,7 +5,7 @@ description: Use when creating, drafting, or rewriting Linear issues (epics, sto
 
 # Linear Issue Craft
 
-A portable issue-writing style. Every pattern in this skill is grounded in real shipped issues — see `references/06-canonical-examples.md` for verbatim source material.
+A portable issue-writing style. Every pattern in this skill is grounded in real shipped issues: see `references/06-canonical-examples.md` for verbatim source material.
 
 ## When this skill applies
 
@@ -13,7 +13,7 @@ Invoke when the user wants to create or polish a Linear issue and you have any s
 
 ## The three issue archetypes
 
-Every issue is one of three shapes. Identify the archetype first — it determines title pattern, body sections, and labels.
+Every issue is one of three shapes. Identify the archetype first: it determines title pattern, body sections, and labels.
 
 | Archetype | When to use | Title shape | Body sections |
 |---|---|---|---|
@@ -57,16 +57,16 @@ If a request doesn't fit one of these three, **stop and decompose** before writi
 
 1. Identify the archetype (epic / story / hardening). When in doubt, ask the user.
 2. Open the matching workflow prompt in `prompts/`:
-   - `prompts/brief-to-epic.md` — converts a one-paragraph brief into an epic + its child stories.
-   - `prompts/hardening-issue.md` — converts a list of code issues in one file into a hardening ticket.
-   - `prompts/refactor-story.md` — converts a code smell or tech-debt note into a single refactor story.
+   - `prompts/brief-to-epic.md`: converts a one-paragraph brief into an epic + its child stories.
+   - `prompts/hardening-issue.md`: converts a list of code issues in one file into a hardening ticket.
+   - `prompts/refactor-story.md`: converts a code smell or tech-debt note into a single refactor story.
 3. Pull patterns from `references/`:
-   - `01-title-patterns.md` — every title shape with real examples.
-   - `02-description-templates.md` — section-by-section body skeletons.
-   - `03-tone-guide.md` — voice characteristics, what to avoid.
-   - `04-labels-and-priority.md` — the layering rule and the priority-by-category mapping.
-   - `05-anti-patterns.md` — common AI-style mistakes this skill rejects.
-   - `06-canonical-examples.md` — three verbatim exemplars to imitate.
+   - `01-title-patterns.md`: every title shape with real examples.
+   - `02-description-templates.md`: section-by-section body skeletons.
+   - `03-tone-guide.md`: voice characteristics, what to avoid.
+   - `04-labels-and-priority.md`: the layering rule and the priority-by-category mapping.
+   - `05-anti-patterns.md`: common AI-style mistakes this skill rejects.
+   - `06-canonical-examples.md`: three verbatim exemplars to imitate.
 4. Draft the issue, then run the validator on it (see "Validate before showing the draft"). It must exit 0 before you show the draft. Show it to the user before posting; never file without explicit approval of the final text.
 5. If the user approves, file it with your Linear MCP server's `save_issue` tool (e.g. `mcp__linear__save_issue`; the exact prefix depends on how the server is registered in your client).
 

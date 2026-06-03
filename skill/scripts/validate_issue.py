@@ -22,7 +22,7 @@ import re
 import sys
 from dataclasses import dataclass
 
-EM_DASH = "—"  # banned in prose; en-dash (–) is tolerated in numeric ranges, so not checked
+EM_DASH = "—"  # banned in prose; en-dash is tolerated in numeric ranges and not checked
 
 # Lines that may legitimately carry an em-dash: role-prefixed titles and the
 # header fields that echo a (possibly role-prefixed) title. The house style
@@ -174,8 +174,14 @@ def check_title(block, out):
 
 
 def check_sections(block, out):
-    expected = ARCHETYPE_SECTIONS[block.archetype]
+    expected = list(ARCHETYPE_SECTIONS[block.archetype])
     present = [h for _, h in block.headings]
+    # Bundled-concept story variant: ### Concept blocks carry the solution, so
+    # the ## Solution H2 is replaced by them and is not separately required.
+    if block.archetype == "story" and any(
+        re.match(r"^###\s+(Concept\b|Why bundled\b)", ln) for _, ln in block.lines
+    ):
+        expected = [s for s in expected if s != "Solution"]
     # drift headings
     for n, h in block.headings:
         if h in DRIFT_HEADINGS:

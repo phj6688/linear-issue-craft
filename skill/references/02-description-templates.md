@@ -13,14 +13,14 @@ Each archetype has a fixed body skeleton. The headings appear in the order shown
 
 ## Outcomes
 
-* <Bullet 1 — a single objective, concrete result. e.g., "The site has a valid `robots.txt` and `sitemap.xml` covering events, public profiles, and marketing routes.">
+* <Bullet 1: a single objective, concrete result. e.g., "The site has a valid `robots.txt` and `sitemap.xml` covering events, public profiles, and marketing routes.">
 * <Bullet 2 …>
 * <Bullet 3 …>
 * <Bullet N. Aim for 3–6 bullets total.>
 
 ## Out of scope
 
-* <Bullet 1 — a thing a reasonable reader might assume is included, but isn't. Names what NOT to do.>
+* <Bullet 1: a thing a reasonable reader might assume is included, but isn't. Names what NOT to do.>
 * <Bullet 2 …>
 
 ## Stories under this epic
@@ -101,13 +101,13 @@ As a <role>, I want <both primitives>, so that <combined outcome>.
 
 <1–2 sentences framing the shared problem the bundle solves. Then one sentence introducing that this work bundles N related primitives.>
 
-### Concept 1 — <short name>
+### Concept 1: <short name>
 
 **Problem:** <2–4 sentences. The specific gap this primitive closes. Plain English; analogies are welcome.>
 
 **Solution:** <2–5 sentences. What we build, the chosen mechanism, and why it suits this codebase. Side-comments and sentence fragments are fine ("Slow + scary.", "Same mental model as `pnpm test` for normal code, just for AI quality.").>
 
-### Concept 2 — <short name>
+### Concept 2: <short name>
 
 **Problem:** <…>
 
@@ -166,7 +166,7 @@ Then continue with Outcomes / Out of scope / Stories under this epic.
 
 <1–3 sentences describing the bug in plain language. Name the lines, the failure mode, and the consumer impact.>
 
-**Fix:** <One-line proposed fix. Be specific — name the function or branch to change.>
+**Fix:** <One-line proposed fix. Be specific: name the function or branch to change.>
 
 ### 2\. <Symptom name> (lines <range>)
 

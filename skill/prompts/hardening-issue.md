@@ -9,7 +9,7 @@ Use this when the user gives you a list of issues in a single file or service ("
 
 If unsure: if the fix for each issue is ≤ 1 line of code or one config edit, bundle them as Hardening. Otherwise split into stories.
 
-## Step 1 — Catalog the issues
+## Step 1: Catalog the issues
 
 For each defect the user surfaces, capture:
 
@@ -20,7 +20,7 @@ For each defect the user surfaces, capture:
 
 If any issue lacks a clear fix proposal, ask the user before drafting.
 
-## Step 2 — Calibrate severity for the Summary
+## Step 2: Calibrate severity for the Summary
 
 Write one sentence that calibrates how urgent this is **today** vs. how urgent it becomes **soon**. This is the move that separates a hardening ticket from a CVE filing. Example:
 
@@ -30,7 +30,7 @@ If a defect *is* currently exploitable, say so and propose paging:
 
 > Issue #2 is reachable from unauthenticated traffic and should be patched in the next deploy; the others are not currently exposed.
 
-## Step 3 — Compose the title
+## Step 3: Compose the title
 
 Pattern: `Harden <file-or-service-stem>: <symptom1>, <symptom2>, <symptom3>`.
 
@@ -40,7 +40,7 @@ Pattern: `Harden <file-or-service-stem>: <symptom1>, <symptom2>, <symptom3>`.
 Real example:
 > `Harden openai-moderation.service.ts: fail-open, input validation, log leaks`
 
-## Step 4 — Draft the body
+## Step 4: Draft the body
 
 Use the Hardening template from `references/02-description-templates.md`:
 
@@ -66,12 +66,12 @@ Use the Hardening template from `references/02-description-templates.md`:
 (repeat for each numbered issue)
 ```
 
-## Step 5 — Labels and priority
+## Step 5: Labels and priority
 
 - **Labels:** always include the domain label (`api` / `web` / `mobile`). Add `compliance` if any issue is security or privacy related. Add `tech-debt` if all issues are non-security defensive code.
 - **Priority:** **High** if any issue is security/privacy. **Medium** if all are non-security defensive code. Never Low (a Low hardening ticket means you should have skipped filing it).
 
-## Step 6 — Show to user before filing
+## Step 6: Show to user before filing
 
 Show the full draft (title + body + labels + priority). Ask for approval before calling `save_issue`.
 
