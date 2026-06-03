@@ -82,6 +82,46 @@ The URL is passed straight to OpenAI with no scheme check.
 **Fix:** Validate scheme is `https://` before sending.
 """
 
+GOOD_BUNDLED = """**Epic:** AI Foundation
+**Title:** AI rollout safety: prompt evals + feature flags
+**Labels:** `api`, `ai`, `tech-debt`
+**Priority:** High
+
+## User Story
+
+As an engineer, I want evals and feature flags, so that I can ship AI changes safely and roll back without a deploy.
+
+## Problem
+
+Two related primitives are missing from the AI platform today. Without evals, every prompt change is a guess; without flags, every rollout is all-or-nothing.
+
+### Concept 1: Eval framework
+
+**Problem:** When you change a prompt, you cannot tell if quality moved.
+
+**Solution:** A fixed test suite that scores every prompt change before it ships.
+
+### Concept 2: Postgres feature flags
+
+**Problem:** Killing a bad feature needs a deploy today.
+
+**Solution:** A `feature_flags` table checked at call time; flip a row to disable.
+
+### Why bundled
+
+Both wrap every future AI story; splitting risks shipping one without the other.
+
+## Requirements
+
+1. Initialize the eval config in `api/evals/` with baseline cases.
+2. Add a `feature_flags` table and an `isEnabled(key, ctx)` helper.
+
+## Evaluation
+
+1. **Validates R1**: the eval suite runs in CI and fails the PR on regression.
+2. **Validates all**: a flag flip disables the feature in prod with no deploy.
+"""
+
 BAD_EM_DASH = """**Epic:** Platform
 **Title:** Wire rate limiter into the login route
 **Labels:** `api`, `compliance`
@@ -267,7 +307,7 @@ def main():
 
     # Good drafts: zero errors.
     for name, txt in [("good_story", GOOD_STORY), ("good_epic", GOOD_EPIC),
-                      ("good_hardening", GOOD_HARDENING)]:
+                      ("good_hardening", GOOD_HARDENING), ("good_bundled", GOOD_BUNDLED)]:
         errs = errors(txt)
         check(f"{name} has no errors", not errs)
         if errs:

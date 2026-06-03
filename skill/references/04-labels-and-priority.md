@@ -10,11 +10,11 @@ Every issue gets at least two labels: **one domain** + **one or more capabilitie
 
 Use whatever domain split matches your codebase. A typical monorepo split:
 
-- `api` — anything in `api/`. Backend, services, ORM, jobs, integrations.
-- `web` — anything in `web/`. Web app, marketing pages, headers, SEO.
-- `mobile` — anything in `mobile/`. React Native / iOS / Android client.
+- `api`: anything in `api/`. Backend, services, ORM, jobs, integrations.
+- `web`: anything in `web/`. Web app, marketing pages, headers, SEO.
+- `mobile`: anything in `mobile/`. React Native / iOS / Android client.
 
-If your project has a different split (e.g., `frontend` / `backend` / `infra`, or per-service labels), use that — but pick **one taxonomy and stick to it**. Mixing schemas fragments the labels.
+If your project has a different split (e.g., `frontend` / `backend` / `infra`, or per-service labels), use that, but pick **one taxonomy and stick to it**. Mixing schemas fragments the labels.
 
 A cross-cutting initiative (e.g., a new auth design that affects all three) is an **epic**, and its children are split per-domain.
 
@@ -33,7 +33,7 @@ A cross-cutting initiative (e.g., a new auth design that affects all three) is a
 
 - A domain label is **required**. Issues without one are rejected.
 - `epic` is required iff the archetype is Epic.
-- `ai`, `seo`, `compliance`, `ui-ux` are not mutually exclusive — apply all that fit.
+- `ai`, `seo`, `compliance`, `ui-ux` are not mutually exclusive: apply all that fit.
 - `tech-debt` and `ui-ux` are also not exclusive (e.g., a refactor of a poorly built UI may carry both).
 - Do **not** use labels for: team ownership, sprint, severity ("urgent"), or status ("blocked").
 
@@ -49,7 +49,7 @@ A cross-cutting initiative (e.g., a new auth design that affects all three) is a
 | `Hardened security headers …` | `web`, `compliance` |
 | `Harden openai-moderation.service.ts …` | `compliance`, `api` |
 
-## Priority — category-driven, not urgency-driven
+## Priority: category-driven, not urgency-driven
 
 Priority maps to **what kind of work** this is, not "how badly do I want it now." Within a category, recency in the backlog handles ordering.
 
@@ -80,6 +80,6 @@ Priority maps to **what kind of work** this is, not "how badly do I want it now.
 
 - ❌ Tagging every active task as "Urgent" because it's currently being worked.
 - ❌ Tagging exploratory or polish work as "High" because it feels important.
-- ❌ Using a label like `frontend` or `backend` when the workspace uses project-based domains — use the project label instead.
-- ❌ Using a label like `sprint-1` or `q3-2026` — Linear cycles handle this.
-- ❌ Inventing new domain labels (`infra`, `data`, etc.) mid-stream — pick a taxonomy and stick to it, or have an explicit migration.
+- ❌ Using a label like `frontend` or `backend` when the workspace uses project-based domains: use the project label instead.
+- ❌ Using a label like `sprint-1` or `q3-2026`: Linear cycles handle this.
+- ❌ Inventing new domain labels (`infra`, `data`, etc.) mid-stream: pick a taxonomy and stick to it, or have an explicit migration.

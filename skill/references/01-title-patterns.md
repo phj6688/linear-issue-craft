@@ -2,7 +2,7 @@
 
 Every issue title follows one of the five patterns below. Pick the matching pattern; never invent a new one.
 
-## 1. Epic — `Epic: <Domain>`
+## 1. Epic: `Epic: <Domain>`
 
 Use Title Case for the domain. Keep it to 2–5 words. The domain should map to a real business area, not an implementation detail.
 
@@ -19,7 +19,7 @@ Avoid:
 - `Epic: Q3 work` (timeline, not domain)
 - `Epic: Misc improvements` (no domain)
 
-## 2. Story — imperative verb + concrete deliverable
+## 2. Story: imperative verb + concrete deliverable
 
 Start with one of: `Stand up`, `Wire`, `Add`, `Build`, `Harden`, `Generate`, `Replace`, `Refactor`, `Implement`, `Migrate`. Then name the concrete thing being delivered, with a file path, endpoint, or component name.
 
@@ -37,7 +37,7 @@ Avoid:
 - `Performance work` (no verb of action, no scope)
 - `Various UX tweaks` (plural, no target)
 
-## 3. Story (role-prefixed) — `<Role> — <Capability>`
+## 3. Story (role-prefixed): `<Role> — <Capability>`
 
 The em-dash is mandatory here. The role names a primary user persona (Artist / Venue / Promoter / Operator / All roles). The capability is one concrete decision-support or feature surface.
 
@@ -48,7 +48,7 @@ Real examples:
 
 Use an optional trailing parenthetical to flag leverage or risk: `(highest-leverage)`, `(blocks EU traffic)`, `(requires DB migration)`.
 
-## 4. Hardening — `Harden <file.ts>: <symptom1>, <symptom2>, <symptom3>`
+## 4. Hardening: `Harden <file.ts>: <symptom1>, <symptom2>, <symptom3>`
 
 Use when **multiple distinct issues** live in **one file or service**. The filename (or file path stem) comes immediately after `Harden`, then a colon, then a comma-separated symptom list of 2–4 items. Each symptom should be a noun phrase, not a sentence.
 
@@ -59,7 +59,7 @@ Variant for system-wide hardening of headers/policies (not file-specific):
 - `Hardened security headers (CSP, HSTS, X-Frame-Options, etc.)`
 - `GDPR cookie consent banner with granular categories`
 
-## 5. Setup / foundation — `<Capability> foundations: <comma-separated artifacts>`
+## 5. Setup / foundation: `<Capability> foundations: <comma-separated artifacts>`
 
 Used when bootstrapping a multi-artifact infrastructure layer in one shot.
 
@@ -70,7 +70,7 @@ Real example:
 
 - **Capitalization:** Title Case for the leading noun (`Epic`, `SEO`) and for trademarked tool names (`Schema.org`, `Trigger.dev`, `Helicone`); sentence case for the rest.
 - **No trailing period.**
-- **Backticks** for file paths, env var names, and code identifiers — `` `robots.ts` ``, `` `api/` ``.
+- **Backticks** for file paths, env var names, and code identifiers: `` `robots.ts` ``, `` `api/` ``.
 - **No emoji.**
 - **No em-dash** anywhere except the Role-prefix separator (pattern 3).
 - **Length:** 6–14 words. If you go longer, you're probably bundling two stories.

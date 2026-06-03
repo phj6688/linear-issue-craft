@@ -1,12 +1,12 @@
 # Canonical examples
 
-Four verbatim shipped issues, one per archetype shape. Treat these as the gold standard — when in doubt, structure your draft to match the example whose archetype you're writing.
+Four verbatim shipped issues, one per archetype shape. Treat these as the gold standard: when in doubt, structure your draft to match the example whose archetype you're writing.
 
 Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, structure, and body content are otherwise unchanged from real shipped issues.
 
 ---
 
-## Example 1 — Epic (PROJ-1)
+## Example 1: Epic (PROJ-1)
 
 **Title:** `Epic: SEO & Discoverability`
 
@@ -46,7 +46,7 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 
 ---
 
-## Example 2 — Story (PROJ-19)
+## Example 2: Story (PROJ-19)
 
 **Title:** `Add Helicone proxy for all OpenAI calls with cost + latency dashboard`
 
@@ -94,7 +94,7 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 
 ---
 
-## Example 3 — Hardening (PROJ-64)
+## Example 3: Hardening (PROJ-64)
 
 **Title:** `Harden openai-moderation.service.ts: fail-open, input validation, log leaks`
 
@@ -141,7 +141,7 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 
 ---
 
-## Example 4 — Bundled-concept Story (PROJ-22)
+## Example 4: Bundled-concept Story (PROJ-22)
 
 **Title:** `AI rollout safety: prompt evals + feature flags`
 
@@ -162,17 +162,17 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 >
 > Two related primitives are missing from the AI platform today. Without an eval suite, every prompt or model swap is a guess. Without runtime feature flags, every AI rollout is an all-or-nothing deploy. Together they form the "ship AI safely" baseline that every downstream AI story should inherit from Day 1.
 >
-> ### Concept 1 — Eval framework (`promptfoo` or `evalite`)
+> ### Concept 1: Eval framework (`promptfoo` or `evalite`)
 >
 > **Problem:** When you change an LLM prompt or swap a model (GPT-4, Claude, Llama Guard), how do you know if quality went up or down? Without evals, you guess from a few manual tests and hope.
 >
 > **Solution:** A test suite, like unit tests but for LLM outputs. Curate ~50 example cases (e.g., "this message contains harassment, should flag"; "this normal message, should NOT flag"). Every prompt or model change runs the suite automatically and reports "old config: 87% correct, new config: 91% correct" before the change ships. Same mental model as `pnpm test` for normal code, just for AI quality.
 >
-> ### Concept 2 — Postgres-backed feature flags
+> ### Concept 2: Postgres-backed feature flags
 >
 > **Problem:** Ship a new AI feature, flip on for 100% of users, bug surfaces or OpenAI bill 10x's overnight. To turn it off you have to deploy a code change. Slow and scary.
 >
-> **Solution:** A `feature_flags` table in Postgres with `key`, `enabled`, `rollout_pct`, `user_allowlist`. Code checks `if (isEnabled('feature-x', userId))` before invoking the feature. To kill it in prod: change one row in the DB. To roll out 1%, 10%, 100%: change `rollout_pct`. To enable for just internal accounts: add to `user_allowlist`. No new vendor (LaunchDarkly, GrowthBook), leverages our existing Supabase Postgres for what's currently a small ask.
+> **Solution:** A `feature_flags` table in Postgres with `key`, `enabled`, `rollout_pct`, `user_allowlist`. Code checks `if (isEnabled('feature-x', userId))` before invoking the feature. To kill it in prod: change one row in the DB. To roll out 1%, 10%, 100%: change `rollout_pct`. To enable for just internal accounts: add to `user_allowlist`. No new vendor (LaunchDarkly, GrowthBook), reuses our existing Supabase Postgres for what's currently a small ask.
 >
 > ### Why bundled
 >

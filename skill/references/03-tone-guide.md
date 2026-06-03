@@ -25,7 +25,7 @@ The opening paragraph of every epic and most stories starts with current-state d
 
 Hardening tickets and security work always say *out loud* whether something is exploitable today, and why it still matters.
 
-> Four vulnerabilities in `api/src/services/openai-moderation.service.ts` found during the Helicone proxy work. None are currently exploitable at scale (moderation is only called from internal service code, not directly from user input), but they become real bugs as moderation is wired into more surfaces. (Example 3 — Hardening)
+> Four vulnerabilities in `api/src/services/openai-moderation.service.ts` found during the Helicone proxy work. None are currently exploitable at scale (moderation is only called from internal service code, not directly from user input), but they become real bugs as moderation is wired into more surfaces. (Example 3: Hardening)
 
 This single sentence does three jobs: scopes the work, calibrates urgency, and justifies prioritization. Imitate it.
 
@@ -33,7 +33,7 @@ This single sentence does three jobs: scopes the work, calibrates urgency, and j
 
 Stories open with action verbs. Even in body prose:
 
-> **Add** Helicone as a transparent proxy in front of OpenAI. The existing `api/src/services/openai-moderation.service.ts` and any future LLM caller **imports** a small `getOpenAIClient()` wrapper that **points** `baseURL` at Helicone. **This is one config change**, no business-logic refactor. (Example 2 — Story)
+> **Add** Helicone as a transparent proxy in front of OpenAI. The existing `api/src/services/openai-moderation.service.ts` and any future LLM caller **imports** a small `getOpenAIClient()` wrapper that **points** `baseURL` at Helicone. **This is one config change**, no business-logic refactor. (Example 2: Story)
 
 ## No filler, no hedging, no apology
 
@@ -47,7 +47,7 @@ Stories open with action verbs. Even in body prose:
 
 Long sentences are fine when they enumerate constraints. The hallmark move: one comma-separated list of must-haves.
 
-> The banner must default to deny, expose granular categories (necessary, analytics, marketing/ads, functional), persist the user's choice durably, and gate any non-essential script from firing until consent is granted. (Story — GDPR cookie consent banner)
+> The banner must default to deny, expose granular categories (necessary, analytics, marketing/ads, functional), persist the user's choice durably, and gate any non-essential script from firing until consent is granted. (Story: GDPR cookie consent banner)
 
 Imitate the rhythm: subject + must + comma-list of obligations.
 
@@ -71,7 +71,7 @@ Imitate the rhythm: subject + must + comma-list of obligations.
 | Story (bundled-concept) | 300–600 words | Epic backlink · User Story · Problem (intro) · Concept blocks (each with bolded **Problem:** + **Solution:**) · Why bundled · Requirements · Evaluation |
 | Hardening | 200–400 words | Summary · Issues (3–5 numbered items) |
 
-Going past 500 words is a code smell — you're probably bundling two issues.
+Going past 500 words is a code smell: you're probably bundling two issues.
 
 ## Reading test
 
