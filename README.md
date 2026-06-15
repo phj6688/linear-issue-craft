@@ -8,7 +8,7 @@ Every pattern in this repo is grounded in real shipped issues, not invented. The
 
 ```
 skill/
-├── SKILL.md                      Main skill entry — decision flow, golden rules, output contract
+├── SKILL.md                      Main skill entry: decision flow, golden rules, three-gate output contract
 ├── references/
 │   ├── 01-title-patterns.md      5 title shapes with real examples
 │   ├── 02-description-templates.md  Body skeletons per archetype
@@ -16,10 +16,14 @@ skill/
 │   ├── 04-labels-and-priority.md Layered labels + category-driven priority
 │   ├── 05-anti-patterns.md       Common AI failures and their fixes
 │   └── 06-canonical-examples.md  Three full verbatim exemplars (Epic, Story, Hardening)
-└── prompts/
-    ├── brief-to-epic.md          Workflow: 1-paragraph brief → epic + N child stories
-    ├── hardening-issue.md        Workflow: list of defects in one file → Hardening ticket
-    └── refactor-story.md         Workflow: code smell → refactor story
+├── prompts/
+│   ├── brief-to-epic.md          Workflow: 1-paragraph brief → epic + N child stories
+│   ├── hardening-issue.md        Workflow: list of defects in one file → Hardening ticket
+│   └── refactor-story.md         Workflow: code smell → refactor story
+├── scripts/
+│   └── validate_issue.py         Gate 1: mechanical house-style validator (stdlib-only)
+└── review/
+    └── issue-reviewer.md         Gate 3: independent reviewer subagent template
 ```
 
 ## The three archetypes
@@ -48,7 +52,7 @@ You can also paste the contents of `skill/SKILL.md` and any relevant `references
 
 ### Filing the drafts
 
-Drafts produced under this skill are designed to be fed into the Linear MCP server's `save_issue` tool. The skill explicitly requires user approval before any `save_issue` call — drafts are always reviewed first.
+Drafts produced under this skill are designed to be fed into the Linear MCP server's `save_issue` tool. Before a draft is shown, it clears three gates: a mechanical validator (`scripts/validate_issue.py`), a judgment checklist, and an independent issue-reviewer subagent (`review/issue-reviewer.md`) that re-verifies every claim against the actual code and workspace (file:line references, "already done" diagnoses, "change everywhere" sweeps, scope, estimates, dedup). The skill requires explicit user approval before any `save_issue` call.
 
 ## Why this exists
 

@@ -67,7 +67,7 @@ If a request doesn't fit one of these three, **stop and decompose** before writi
    - `04-labels-and-priority.md`: the layering rule and the priority-by-category mapping.
    - `05-anti-patterns.md`: common AI-style mistakes this skill rejects.
    - `06-canonical-examples.md`: three verbatim exemplars to imitate.
-4. Draft the issue, then run the validator on it (see "Validate before showing the draft"). It must exit 0 before you show the draft. Show it to the user before posting; never file without explicit approval of the final text.
+4. Draft the issue, then clear all three gates in "Validate before showing the draft": the mechanical validator (Gate 1), your own judgment checks (Gate 2), and an independent issue-reviewer subagent (Gate 3). Only show the user a draft that has cleared all three, and never file without explicit approval of the final text.
 5. If the user approves, file it with your Linear MCP server's `save_issue` tool (e.g. `mcp__linear__save_issue`; the exact prefix depends on how the server is registered in your client).
 
 ## Output contract
@@ -77,12 +77,13 @@ When this skill is active, every draft you produce must include:
 - A **title** that follows one of the patterns in `references/01-title-patterns.md` verbatim.
 - A **body** that uses the section headings in `references/02-description-templates.md` for its archetype, in order, with no extra sections.
 - A **labels** array (1 domain + ≥1 capability) following `references/04-labels-and-priority.md`.
-- A **priority** name (`High` / `Medium` / `Low` / `No priority`) chosen by the category rule.
-- A short, conversational note to the user above the draft, summarizing why you chose this archetype and what alternative you considered. Keep it 2 sentences max.
+- A **priority** name (`High` / `Medium` / `Low` / `No priority`) chosen by the category rule. Priority is category, not status: never use `No priority` to mean "deferred" or "verify-only".
+- An **estimate** on every story (its point/size value). A story with no estimate is incomplete; a blank estimate pushes sizing onto a later planner.
+- A short, conversational note to the user above the draft, summarizing why you chose this archetype, what alternative you considered, and any Critical or Important findings Gate 3 raised and how you resolved them. Keep it to 3 sentences max.
 
 ## Validate before showing the draft
 
-Two gates. Gate 1 is mechanical and non-negotiable. Gate 2 is judgment the script cannot make for you.
+Three gates. Gate 1 is mechanical and non-negotiable. Gate 2 is judgment the script cannot make for you. Gate 3 is an independent reviewer that re-verifies your claims against the real code, because Gate 2 is you checking work you are biased to believe.
 
 ### Gate 1: run the validator (hard gate)
 
@@ -105,4 +106,24 @@ This is a gate, not a mental note. Do not show the user a draft you have not run
 - [ ] If story: exactly one PR's worth of scope. A "while we're at it" is a sibling story, not a bolted-on requirement.
 - [ ] The archetype is right: if the request did not fit epic/story/hardening, you decomposed instead of forcing it.
 
-If Gate 1 reports any ERROR or any Gate 2 box is unchecked, fix it before showing the draft.
+If Gate 1 reports any ERROR or any Gate 2 box is unchecked, fix it before moving on.
+
+### Gate 3: independent review (issue-reviewer subagent)
+
+Gate 2 is you checking your own work, and the context that wrote the issue is biased toward believing its own diagnosis. Gate 3 hands the draft to a fresh agent that re-verifies every claim against the actual code and workspace. This is the gate that catches the false "already done", the wrong `file:line`, and the half-done "change everywhere" sweep.
+
+Dispatch an issue-reviewer subagent (Task tool, `general-purpose`) filling the template at `review/issue-reviewer.md`:
+
+- `{ORIGINAL_REQUEST}`: what the user asked for, including whether they asked to file or only to investigate
+- `{ISSUE_DRAFTS}`: the full draft(s)
+- `{REPO_PATH}`: the repo the issues reference (or `none`)
+- `{WORKSPACE_CONTEXT}`: target team/project plus your Linear MCP prefix
+- `{FILED_IDS}`: `not yet filed (draft)` in the normal flow
+
+Act on the verdict:
+
+- **Fix before filing** or **Decompose first**: fix every Critical and Important finding, then re-run Gate 1 and put the revised draft back through Gate 3 before showing the user.
+- **File as-is**: proceed to show the user, noting in your draft note what the review checked.
+- Push back if the reviewer is wrong, with the evidence (the `file:line` that proves the claim), the same way you would with a code reviewer.
+
+This is a gate, not a mental note. Do not show the user a draft you have not had independently reviewed. The defects Gate 3 catches are exactly the ones that look correct to the author, so "I am confident" is not a reason to skip it. The only case that does not need Gate 3 is a pure title or label tweak on an already-filed issue.
