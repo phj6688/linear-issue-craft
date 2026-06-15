@@ -122,7 +122,7 @@ Dispatch an issue-reviewer subagent (Task tool, `general-purpose`) filling the t
 
 Act on the verdict:
 
-- **Fix before filing** or **Decompose first**: fix every Critical and Important finding, then re-run Gate 1 before showing the user.
+- **Fix before filing** or **Decompose first**: fix every Critical and Important finding, then re-run Gate 1 and put the revised draft back through Gate 3 before showing the user.
 - **File as-is**: proceed to show the user, noting in your draft note what the review checked.
 - Push back if the reviewer is wrong, with the evidence (the `file:line` that proves the claim), the same way you would with a code reviewer.
 

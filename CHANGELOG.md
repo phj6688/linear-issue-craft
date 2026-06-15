@@ -9,7 +9,7 @@
 
 ### Changed
 - `SKILL.md`: the validate-before-showing flow is now three gates. Gate 3 dispatches the issue-reviewer subagent before any draft is shown, because the context that wrote an issue is biased toward believing its own diagnosis: a self-checklist passes while the claim stays false, but a separate agent re-runs the grep and finds the truth. Added an `Estimate` field to the output contract (stories were shipping with none) and a rule that priority is category, not a status or "deferred" marker.
-- `SKILL.md`: replaced the "run these mentally" checklist with a two-gate system (the validator script for mechanical rules, plus judgment-only checks the script cannot make). Trimmed the `description` to triggering conditions only, so the agent reads the body instead of acting on a workflow summary.
+- `SKILL.md`: replaced the "run these mentally" checklist with a three-gate flow (the validator script for mechanical rules, judgment-only checks the script cannot make, and Gate 3 independent review). Trimmed the `description` to triggering conditions only, so the agent reads the body instead of acting on a workflow summary.
 - Stories-under-epic lists now use `Story N:` (colon) instead of an em-dash, removing the contradiction with golden rule 5 (the rule banned em-dashes in prose while the examples used them).
 - The label rule defers to the target workspace's own domain taxonomy; the agent verifies names via `list_issue_labels` rather than a hardcoded `api`/`web`/`mobile` set.
 - The brief-to-epic workflow asks a clarifying question when the scope (platform, v1 feature set, target surface) is unknown, not only when the deficiency sentence cannot be written.
