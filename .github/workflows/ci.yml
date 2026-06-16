@@ -1,0 +1,186 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [dev, master, main]
+  push:
+    branches: [dev, master, main]
+  workflow_dispatch:
+
+# One run per ref; new pushes cancel superseded runs.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate-skill:
+    name: Validate skill & manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install PyYAML
+        run: python -m pip install --quiet pyyaml
+      - name: SKILL.md frontmatter has name + description
+        run: |
+          python - <<'PY'
+          import sys, glob, yaml
+          skills = sorted(set(
+              glob.glob('SKILL.md')
+              + glob.glob('**/SKILL.md', recursive=True)
+          ))
+          if not skills:
+              print("::error::no SKILL.md found")
+              sys.exit(1)
+          bad = 0
+          for path in skills:
+              text = open(path, encoding='utf-8').read()
+              if not text.startswith('---'):
+                  print(f"::error file={path}::missing YAML frontmatter")
+                  bad += 1; continue
+              fm = text.split('---', 2)[1]
+              try:
+                  data = yaml.safe_load(fm) or {}
+              except Exception as e:
+                  print(f"::error file={path}::invalid frontmatter YAML: {e}")
+                  bad += 1; continue
+              for key in ('name', 'description'):
+                  if not data.get(key):
+                      print(f"::error file={path}::frontmatter missing '{key}'")
+                      bad += 1
+              print(f"OK: {path}")
+          sys.exit(1 if bad else 0)
+          PY
+      - name: Validate JSON manifests (plugin.json / marketplace.json)
+        run: |
+          python - <<'PY'
+          import sys, glob, json
+          bad = 0
+          manifests = (glob.glob('**/plugin.json', recursive=True)
+                       + glob.glob('**/marketplace.json', recursive=True))
+          if not manifests:
+              print("No plugin.json / marketplace.json; nothing to validate.")
+          for f in manifests:
+              try:
+                  json.load(open(f, encoding='utf-8'))
+                  print(f"OK: {f}")
+              except Exception as e:
+                  print(f"::error file={f}::invalid JSON: {e}")
+                  bad += 1
+          sys.exit(1 if bad else 0)
+          PY
+
+  lint:
+    name: Ruff lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ruff
+        run: python -m pip install --quiet ruff
+      - name: ruff check
+        # Lint only. The repo ships no ruff config and the scripts are
+        # deliberately hand-formatted, so `ruff format --check` is intentionally
+        # not run (it would impose a style the repo never adopted).
+        run: ruff check .
+
+  test:
+    name: Test (python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run the validator test suite
+        # The suite is a self-contained script runner (asserts via exit code),
+        # not pytest-collectable, so run it directly.
+        run: python skill/scripts/tests/test_validate.py
+
+  import-sanity:
+    name: Import & CLI smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Import module
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, 'skill/scripts')
+          import validate_issue
+          assert hasattr(validate_issue, 'validate_text'), "validate_text missing"
+          print("import OK")
+          PY
+      - name: CLI passes a known-good draft
+        run: |
+          cat > /tmp/good_story.md <<'MD'
+          **Epic:** AI Foundation / Platform infra
+          **Title:** Add Helicone proxy for all OpenAI calls with cost dashboard
+          **Labels:** `api`, `ai`
+
+          ## User Story
+
+          As an operator, I want every LLM call routed through an observability gateway, so that I can see real-time cost, latency, and error rates per feature.
+
+          ## Problem
+
+          Today every OpenAI call in `api/src/` imports the raw SDK and hits the API directly. There is no per-feature cost slice.
+
+          ## Solution
+
+          Add Helicone as a transparent proxy. The caller imports a small `getOpenAIClient()` wrapper. One config change, no refactor.
+
+          ## Requirements
+
+          1. Create `api/src/lib/openai-client.ts` exporting `getOpenAIClient()`.
+
+          ## Evaluation
+
+          1. **Validates R1**: A test call shows up in the Helicone dashboard within 10s.
+          MD
+          python skill/scripts/validate_issue.py /tmp/good_story.md
+      - name: CLI rejects a bad draft (non-zero exit)
+        run: |
+          printf '**Title:** Improve search performance\n\n## User Story\n\nbad\n' > /tmp/bad.md
+          if python skill/scripts/validate_issue.py /tmp/bad.md; then
+            echo "::error::validator passed a draft it should have rejected"
+            exit 1
+          fi
+          echo "Correctly rejected the bad draft."
+
+  ci-passed:
+    name: CI passed
+    if: always()
+    needs: [validate-skill, lint, test, import-sanity]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every job to pass
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: |
+          echo "::error::A required CI job did not succeed."
+          echo "Results: ${{ join(needs.*.result, ' ') }}"
+          exit 1
+      - name: All gates green
+        run: echo "All CI jobs passed."
