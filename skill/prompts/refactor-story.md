@@ -42,8 +42,9 @@ If the title sounds like a story to add a *feature*, you're not writing a refact
 Use the Story template. The shape is the same as a feature story, but the User Story has a particular flavor:
 
 ```markdown
-**Epic:** <if applicable, otherwise omit this header>
+**Epic:** <parent epic, or `none` for a deliberately standalone refactor>
 **Title:** <verbatim story title>
+**Anchor:** <the new file/function being introduced, e.g. web/lib/request.ts:buildRequest>
 
 ## User Story
 
@@ -57,6 +58,10 @@ As an engineer working on <surface>, I want <unified pattern>, so that <future c
 
 <Name the proposed shape in 1–2 sentences. Reference the file/function being introduced. End with a simplifying constraint or scope boundary (e.g., "Behavior is preserved by design; the existing integration test suite covers the diff with no edits.").>
 
+## Out of scope
+
+* <One adjacent cleanup a reader might assume is bundled but isn't. Keeps the refactor one PR.>
+
 ## Requirements
 
 1. <Concrete action 1, name the new file/function being introduced.>
@@ -68,7 +73,7 @@ As an engineer working on <surface>, I want <unified pattern>, so that <future c
 
 1. **Validates R1 + R2**: <observation, e.g., "All `<surface>` consumers import from the new module; `rg \"<old pattern>\"` returns zero hits.">
 2. **Validates R3**: <test results / build output.>
-3. **Validates all**: **No behavior change.** <how to verify externally, e.g., "the existing integration test suite passes with no edits.">
+3. **Validates all**: **No behavior change.** <how to verify externally headless, e.g., "the existing integration test suite passes with no edits.">
 ```
 
 ## Step 4: Labels and priority
@@ -90,6 +95,7 @@ Skeleton:
 Drafted as a refactor story because the change preserves behavior and touches a single surface. Alternative was a hardening ticket; rejected because the issues here aren't defects in the current code: it just doesn't scale.
 
 **Title:** <title>
+**Anchor:** <the new file/function being introduced>
 **Labels:** <domain>, tech-debt
 **Priority:** Low
 

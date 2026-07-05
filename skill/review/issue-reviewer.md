@@ -50,6 +50,19 @@ Task tool (general-purpose):
       copy string): flag it. It may live only in a runtime DB/CMS reachable via
       MCP, not in a file. The issue must say so, or an implementer will hunt for a
       file that does not exist.
+    - Verify the **Anchor** resolves. A story/task names one machine target
+      (`file.ext:line`, `file.ext:symbol`, `module.function`, `METHOD /path ->
+      status`, or `playwright:selector`). Open the repo and confirm the symbol,
+      line, or route actually exists. A prose or nonexistent Anchor is Critical:
+      the held-out probe binds to it, and a wrong Anchor makes the probe green
+      while testing nothing (or ImportError and burn the build loop).
+    - Verify the **acceptance is machine-checkable headless**. Each Evaluation
+      (or Task Verification, or hardening **Verify:**) item must be a command or
+      observation a headless stage can run against the checkout, with an expected
+      result. Flag as Important any item that (a) needs a soak, a dashboard, or
+      prod credentials, or (b) asserts against a stubbed version of the very
+      thing under test (a stub-seam eval passes while the real behavior is
+      never exercised). Those belong in a Post-ship follow-up, not the gate.
 
     ### 2. Scope and sizing
     - A story is one PR plus one acceptance test. Flag a story that bundles a
@@ -61,8 +74,9 @@ Task tool (general-purpose):
       requirement.
 
     ### 3. Metadata and linkage
-    - Does each story carry an `estimate`? A missing estimate leaves sizing to a
-      later planner. Treat absent estimate as Important.
+    - Estimate is a Linear field set at save time, not body text, and no
+      execution stage reads it. Only flag a missing estimate (Minor) if the
+      target workspace actually uses estimates; never treat it as a blocker.
     - Is `priority` used for category (security/infra/epic = High, feature =
       Medium, exploratory = Low), NOT as a status marker? Flag `priority: No
       priority` used to mean "deferred" or "verify-only" — that belongs in status
@@ -82,12 +96,16 @@ Task tool (general-purpose):
       ticket and no note? Flag it for a tracking note so the finding is not lost.
 
     ## Calibration (do not false-positive)
-    This style has three archetypes with intended shapes. Judge against the right one:
+    This style has four archetypes with intended shapes. Judge against the right one:
     - Epic: Goal / Outcomes / Out of scope / Stories under this epic. 2-8 children.
-    - Story: User Story / Problem / Solution / Requirements / Evaluation. One PR.
-    - Hardening: Summary / Issues (each numbered with a **Fix:**). Hardening tickets
-      INTENTIONALLY bundle 2-3 fixes in one file and put verification inside the
-      **Fix:** prose. Do NOT flag that as a sizing or acceptance-criteria defect.
+    - Story: Anchor / User Story / Problem / Solution / Out of scope / Requirements /
+      Evaluation. One PR. Standalone stories legitimately carry `**Epic:** none`.
+    - Hardening: Summary / Issues (each numbered with a **Fix:** and a **Verify:**).
+      Hardening tickets INTENTIONALLY bundle 2-3 fixes in one file; the per-issue
+      **Verify:** line is the acceptance. Do NOT flag the bundling as a sizing defect.
+    - Task: Type / Anchor / Problem / Verification. A one-cause bug or a chore.
+      It has no persona and no requirement-to-evaluation mapping BY DESIGN; do not
+      flag the missing User Story or Requirements as a defect.
     Do not invent problems to look thorough. A correct, well-scoped issue earns a
     short Strengths list and a "File as-is" verdict.
 
@@ -104,9 +122,10 @@ Task tool (general-purpose):
     wrong behavior or sends an implementer to a file that does not exist.]
 
     #### Important (should fix before filing)
-    [Incomplete sweep, net-new work bundled into a small change, missing estimate,
-    undisclosed data-vs-code gap, filing without the requested approval, likely
-    duplicate, broken epic/child linkage.]
+    [Incomplete sweep, net-new work bundled into a small change, an acceptance
+    item that is not machine-checkable headless or that stubs the thing under
+    test, undisclosed data-vs-code gap, filing without the requested approval,
+    likely duplicate, broken epic/child linkage.]
 
     #### Minor (nice to fix)
     [Title polish, label refinement, weak deferral rationale, ordering.]

@@ -1,8 +1,8 @@
 # linear-issue-craft
 
-A portable Claude Code skill that captures a tight, repeatable Linear issue writing style — designed to be applied to any Linear workspace.
+A portable Claude Code skill that captures a tight, repeatable Linear issue writing style, designed to be applied to any Linear workspace.
 
-Every pattern in this repo is grounded in real shipped issues, not invented. The three canonical exemplars are quoted verbatim (with workspace identifiers anonymized) in `skill/references/06-canonical-examples.md`.
+The issue is treated as a compiler input, not an essay: an autonomous execution pipeline reads it (a planner, a held-out probe that writes a frozen test from the title plus Requirements plus Evaluation, an implementer, a reviewer, a merge gate), so concreteness is the product. Every pattern in this repo is grounded in real shipped issues, not invented. The canonical exemplars are quoted verbatim (with workspace identifiers anonymized) in `skill/references/06-canonical-examples.md`.
 
 ## What's in the box
 
@@ -10,12 +10,12 @@ Every pattern in this repo is grounded in real shipped issues, not invented. The
 skill/
 ├── SKILL.md                      Main skill entry: decision flow, golden rules, three-gate output contract
 ├── references/
-│   ├── 01-title-patterns.md      5 title shapes with real examples
+│   ├── 01-title-patterns.md      6 title shapes with real examples
 │   ├── 02-description-templates.md  Body skeletons per archetype
 │   ├── 03-tone-guide.md          Voice characteristics, hard "no" list
 │   ├── 04-labels-and-priority.md Layered labels + category-driven priority
 │   ├── 05-anti-patterns.md       Common AI failures and their fixes
-│   └── 06-canonical-examples.md  Three full verbatim exemplars (Epic, Story, Hardening)
+│   └── 06-canonical-examples.md  Five full verbatim exemplars (Epic, Story, Hardening, Bundled, Task)
 ├── prompts/
 │   ├── brief-to-epic.md          Workflow: 1-paragraph brief → epic + N child stories
 │   ├── hardening-issue.md        Workflow: list of defects in one file → Hardening ticket
@@ -26,13 +26,16 @@ skill/
     └── issue-reviewer.md         Gate 3: independent reviewer subagent template
 ```
 
-## The three archetypes
+## The archetypes
 
 | Archetype | Title shape | Body sections |
 |---|---|---|
 | **Epic** | `Epic: <Domain>` | Goal · Outcomes · Out of scope · Stories under this epic |
-| **Story** | imperative verb + concrete deliverable, or `<Role> — <Capability>` | (epic backlink) · User Story · Problem · Solution · Requirements · Evaluation |
-| **Hardening** | `Harden <file.ts>: <symptom1>, <symptom2>, <symptom3>` | Summary · Issues (numbered, each with **Fix:**) |
+| **Story** | imperative verb + concrete deliverable, or `<Role> — <Capability>` | (epic backlink) · Anchor · User Story · Problem · Solution · Out of scope · Requirements · Evaluation |
+| **Hardening** | `Harden <file.ts>: <symptom1>, <symptom2>, <symptom3>` | Summary · Issues (numbered, each with **Fix:** + **Verify:**) |
+| **Task** | `Bug:` / `Chore:` / `Spike:` (or set `**Type:**`) | Anchor · Problem · Verification |
+
+Every **Story** and **Task** carries an **Anchor**: one machine-resolvable target (`file.ext:line`, `file.ext:symbol`, `module.function`, `METHOD /path -> status`, or `playwright:selector`) that the held-out probe binds to.
 
 ## How to use it
 
@@ -52,7 +55,7 @@ You can also paste the contents of `skill/SKILL.md` and any relevant `references
 
 ### Filing the drafts
 
-Drafts produced under this skill are designed to be fed into the Linear MCP server's `save_issue` tool. Before a draft is shown, it clears three gates: a mechanical validator (`scripts/validate_issue.py`), a judgment checklist, and an independent issue-reviewer subagent (`review/issue-reviewer.md`) that re-verifies every claim against the actual code and workspace (file:line references, "already done" diagnoses, "change everywhere" sweeps, scope, estimates, dedup). The skill requires explicit user approval before any `save_issue` call.
+Drafts produced under this skill are designed to be fed into the Linear MCP server's `save_issue` tool. In interactive mode, before a draft is shown it clears three gates: a mechanical validator (`scripts/validate_issue.py`), a judgment checklist, and an independent issue-reviewer subagent (`review/issue-reviewer.md`) that re-verifies every claim against the actual code and workspace (file:line references, Anchor existence, "already done" diagnoses, "change everywhere" sweeps, scope, dedup). The skill requires explicit user approval before any `save_issue` call. In headless / pipeline mode (a subagent filing a batch straight to the execution pipeline) the per-issue reviewer and approval step are replaced by a save-hook that runs the validator at the tool boundary, so validation cannot be skipped under load.
 
 ## Why this exists
 
@@ -64,7 +67,7 @@ This skill is the bridge.
 
 ## Source material
 
-The patterns were distilled from 64 real shipped issues across one well-structured Linear workspace (Web / Mobile / API monorepo). The three canonical exemplars in `references/06-canonical-examples.md` are quoted verbatim with the workspace-specific identifiers anonymized to `PROJ-N`.
+The patterns were distilled from real shipped issues across well-structured Linear workspaces. The canonical exemplars in `references/06-canonical-examples.md` are quoted verbatim with the workspace-specific identifiers anonymized to `PROJ-N` (Anchor lines and runnable acceptance closers reflect the current contract; the originals predate both).
 
 ## Extensions (not built yet)
 

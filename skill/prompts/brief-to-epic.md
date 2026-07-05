@@ -65,11 +65,11 @@ Use the Epic template from `references/02-description-templates.md`. Fill in:
 
 Use the Story template from `references/02-description-templates.md` for each child. Confirm:
 
-- Each story has a `**Epic:** <Epic name>` backlink and a `**Title:** <verbatim title>` line below it.
-- The body is shaped as **User Story / Problem / Solution / Requirements / Evaluation** (or the bundled-concept variant if two primitives ship together).
+- Each story has a `**Epic:** <Epic name>` backlink, a `**Title:** <verbatim title>` line, and an `**Anchor:**` line (one machine-resolvable target the probe can bind to).
+- The body is shaped as **User Story / Problem / Solution / Out of scope / Requirements / Evaluation** (or the bundled-concept variant if two primitives ship together).
 - Requirements list 3–6 grep-able actions with file paths.
 - Evaluation items map back to requirements with `**Validates R<n>**:` prefixes.
-- The last Evaluation item is a soak/integration check.
+- Every Evaluation item is runnable headless against the checkout; the last item is a holistic acceptance check that exercises the real seam. Any soak, dashboard, or staging check goes in a `## Post-ship follow-up` line, never as the acceptance.
 
 ## Step 6: Show to user before filing
 
@@ -100,6 +100,7 @@ I'm proposing **<N> child stories** under this epic. Archetype is **<epic vs. pe
 ## Story 1 of N
 
 **Title:** <story title>
+**Anchor:** <file.ext:line | file.ext:symbol | module.function | METHOD /path -> status | playwright:selector>
 **Parent:** <Epic name>
 **Labels:** <domain>, <capability(ies)>
 **Priority:** <High/Medium/Low>
@@ -111,7 +112,7 @@ I'm proposing **<N> child stories** under this epic. Archetype is **<epic vs. pe
 (repeat for each story)
 ```
 
-Wait for explicit user approval, and run the validator (Gate 1) on every issue first. Only then, call your Linear MCP `save_issue` tool (e.g. `mcp__linear__save_issue`) per item. Set `parentId` to the epic's ID on each child.
+Wait for explicit user approval, and run the validator (Gate 1) on every issue first. Only then, call your Linear MCP `save_issue` tool (e.g. `mcp__linear__save_issue`) per item. Set `parentId` to the epic's ID on each child. If a child is blocked by a sibling, set the Linear blocked-by relation too, so the pipeline's execution order is correct. In headless/pipeline mode (filing a batch straight to execution) the per-issue Gate 3 reviewer is dropped, but Gate 1 must still pass on every block before its `save_issue`.
 
 ## Step 7: File and report
 

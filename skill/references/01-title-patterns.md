@@ -1,6 +1,6 @@
 # Title patterns
 
-Every issue title follows one of the five patterns below. Pick the matching pattern; never invent a new one.
+Every issue title follows one of the patterns below. Pick the matching pattern; never invent a new one.
 
 ## 1. Epic: `Epic: <Domain>`
 
@@ -65,6 +65,19 @@ Used when bootstrapping a multi-artifact infrastructure layer in one shot.
 
 Real example:
 - `SEO foundations: robots.ts, sitemap.ts, metadataBase, canonicals, Organization JSON-LD`
+
+## 6. Task: imperative deliverable (Bug / Chore / Spike / Ops)
+
+A single small bug, chore, spike, or ops change uses a plain imperative title, with the kind set in the body's `**Type:**` header (or an optional `Bug:` / `Chore:` / `Spike:` prefix). Same concreteness rules as a story title.
+
+Real examples:
+- `Fix drag reset on pointerup in the 3D graph`
+- `Bump Node to 20 in the api Dockerfile and CI`
+- `Spike: is the --strict-mcp-config envelope honored by the runner?`
+
+Avoid:
+- `Fix the bug` (no target)
+- `Cleanup` (no verb of action, no scope)
 
 ## House rules for all titles
 

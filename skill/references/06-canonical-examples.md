@@ -1,8 +1,8 @@
 # Canonical examples
 
-Four verbatim shipped issues, one per archetype shape. Treat these as the gold standard: when in doubt, structure your draft to match the example whose archetype you're writing.
+Five verbatim shipped issues, one per archetype shape. Treat these as the gold standard: when in doubt, structure your draft to match the example whose archetype you're writing.
 
-Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, structure, and body content are otherwise unchanged from real shipped issues.
+Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, structure, and body content are otherwise unchanged from real shipped issues, except that Anchor lines and runnable acceptance closers reflect the current contract (the originals predate both).
 
 ---
 
@@ -58,6 +58,7 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 
 > **Epic:** AI Foundation / Platform infra
 > **Title:** Add Helicone proxy for all OpenAI calls with cost + latency dashboard
+> **Anchor:** api/src/lib/openai-client.ts:getOpenAIClient
 >
 > ## User Story
 >
@@ -71,6 +72,10 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 >
 > Add Helicone as a transparent proxy in front of OpenAI. The existing `api/src/services/openai-moderation.service.ts` and any future LLM caller imports a small `getOpenAIClient()` wrapper that points `baseURL` at Helicone with the org's API key. This is one config change, no business-logic refactor.
 >
+> ## Out of scope
+>
+> * Changing any prompt or moderation logic; this story only reroutes the transport.
+>
 > ## Requirements
 >
 > 1. Create `api/src/lib/openai-client.ts` exporting `getOpenAIClient()` that returns an OpenAI client configured with `baseURL: https://oai.helicone.ai/v1` and the Helicone auth header set from `HELICONE_API_KEY`.
@@ -81,16 +86,21 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 > ## Evaluation
 >
 > 1. **Validates R1 + R2**: A test call from `api/` shows up in the Helicone dashboard within 10s with model, tokens, and cost; `rg "from 'openai'"` outside `openai-client.ts` returns zero hits.
-> 2. **Validates R3**: Helicone dashboard "Properties" view groups calls by feature and shows distinct cost per feature.
-> 3. **Validates R4**: The secret manager returns the key in dev; host secrets list shows it in staging and prod; the guide doc references it.
-> 4. **Validates all**: A 24h soak in staging shows zero "fallback to direct OpenAI" log lines (i.e., the proxy stays healthy).
+> 2. **Validates R3**: a unit test asserts each call carries a `Helicone-Property-Feature` header; `rg "Helicone-Property-Feature" api/src` shows one per LLM call site.
+> 3. **Validates R4**: the secret manager returns the key in dev; `rg "HELICONE_API_KEY" docs/guides/AI_PLATFORM_GUIDE.md` returns a hit.
+> 4. **Validates all**: `pytest api/tests/test_openai_client.py` passes and `rg "from 'openai'"` outside `openai-client.ts` returns zero hits.
+>
+> ## Post-ship follow-up
+>
+> * A 24h soak in staging should show zero "fallback to direct OpenAI" log lines. This is a follow-up watch, not the acceptance gate.
 
 **What to imitate:**
-- Header lines (`**Epic:**`, `**Title:**`) repeat the parent link and title before the User Story.
+- Header lines (`**Epic:**`, `**Title:**`, `**Anchor:**`) repeat the parent link, title, and probe target before the User Story.
 - **Problem** diagnoses the current-state gap before introducing the fix; it names the file paths and the failure surface.
 - **Solution** names the chosen mechanism and ends with a simplifying constraint ("This is one config change, no business-logic refactor.").
 - Each Requirement is one concrete grep-able action.
-- Each Evaluation item explicitly cites which Requirements it validates; the final item is a soak/integration check.
+- Each Evaluation item explicitly cites which Requirements it validates and is runnable headless against the checkout; the soak moves to Post-ship follow-up.
+- The persona is "operator" because this workspace really uses that role. Verify the persona against the repo before reusing it; do not invent an "operator" or "admin" where the project says "user".
 
 ---
 
@@ -153,6 +163,7 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 
 > **Epic:** AI Foundation / Platform infra
 > **Title:** AI rollout safety: prompt evals + feature flags
+> **Anchor:** api/src/services/feature-flags.service.ts:isEnabled
 >
 > ## User Story
 >
@@ -197,3 +208,31 @@ Workspace-specific identifiers have been anonymized to `PROJ-N`. The prose, stru
 - Each **Concept** has its own bolded `**Problem:**` and `**Solution:**` mini-frames; analogies and sentence fragments ("Slow and scary.", "Same mental model as `pnpm test`") are welcome here.
 - A `### Why bundled` block justifies the bundling and is the explicit signal that splitting would cause drift.
 - Requirements and Evaluation stay at H2 even with multiple concepts, with each Requirement still being one grep-able action.
+
+---
+
+## Example 5: Task / Bug (PROJ-230)
+
+**Title:** `Fix drag reset on pointerup in the 3D graph`
+
+**Labels:** `web`, `ui-ux`
+**Priority:** Medium (status: Done)
+
+**Body:**
+
+> **Type:** Bug
+> **Title:** Fix drag reset on pointerup in the 3D graph
+> **Anchor:** web/components/graph-3d.tsx:657
+>
+> ## Problem
+>
+> `dragPinned` is set `true` on `pointerdown` but reset to `false` on `pointerup` (`graph-3d.tsx:657`), so a node the user drags to pin snaps back to the force layout the instant they release. The pin state never survives the gesture.
+>
+> ## Verification
+>
+> `npx playwright test drag-pin` drags a node, releases, and asserts the node stays at the dropped position (the force tick does not move it on the next frame).
+
+**What to imitate:**
+- No persona, no Requirements-to-Evaluation mapping: a one-cause bug does not need the full Story ceremony.
+- The Anchor is the exact `file:line` of the defect, so the held-out probe binds straight to it.
+- The Problem names the wrong behavior at the anchor; the Verification is one runnable command with an expected observation. This is the shape that merged in minutes, not the padded one.
