@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Added (save-hook: weld the boundary)
+- `hooks/validate-issue-on-save.sh`: a Claude Code PreToolUse hook for `mcp__linear__save_issue` that runs the Gate-1 validator at the tool boundary, so the check cannot be skipped on the headless batch-filing path (a PreToolUse hook fires for subagent tool calls too). Create-only (an update with an `id` is left alone, so the pre-Anchor corpus is never orphaned); build-lane scoped (governance labels `human`/`eval` exempt); `observe` by default (logs would-blocks, allows) and `enforce` on an operator flip (denies with the validator's re-fileable output via `permissionDecision: deny`). Fails open on any unexpected input. On a create, a missing or prose-shaped Anchor is promoted from WARN to a block. `hooks/README.md` documents install + the operator-owned enforce flip (gated on a clean corpus replay); `hooks/test_hook.sh` covers the decision matrix (7 cases).
+
 ### Added (Anchor + validator hygiene)
 - **Anchor field.** Every story and task now carries a `**Anchor:**` line: one machine-resolvable target (`file.ext:line`, `file.ext:symbol`, `module.function`, `METHOD /path -> status`, or `playwright:selector`). It is the interface the downstream held-out probe binds to; a probe cannot test a thing the issue never named. The validator WARNs on a missing or prose-shaped anchor; a save-hook (separate increment) promotes it to a create-only ERROR.
 - **Task archetype** for a single bug, chore, spike, or ops change too small for the full story ceremony. Selected with `**Type:** Bug|Chore|Spike|Ops` (or a title prefix); shape is Anchor / Problem / Verification. Fixes the coverage gap where a one-line bug had to be inflated into a Story or mis-filed as a one-issue Hardening ticket. New title pattern (6) and canonical Example 5.
