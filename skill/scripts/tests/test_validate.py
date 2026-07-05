@@ -223,6 +223,38 @@ Optimize `/search` to p95 < 200ms on a 10k-event corpus with an LRU cache. One m
 1. **Validates R1**: `pytest -k search_latency` asserts p95 < 200ms.
 """
 
+# Noun compounds ("self-improvement", "evaluator-optimizer", "optimizer") are
+# terms of art, not vague action verbs, and must NOT fire vague-verb.
+NOUN_COMPOUND = """**Epic:** none
+**Title:** Wire the self-improvement loop into the evaluator-optimizer
+**Anchor:** app/loop.py:run_optimizer
+**Labels:** `ai`, `infra`
+
+## User Story
+
+As an operator, I want the gated self-improvement loop wired in, so that the optimizer proposes changes safely.
+
+## Problem
+
+Today `app/loop.py` runs the evaluator-optimizer pattern but the self-improvement loop is ungated; the optimizer writes with no review.
+
+## Solution
+
+Gate the optimizer behind the reviewer. One module.
+
+## Out of scope
+
+* Unattended self-improvement; the gate stays.
+
+## Requirements
+
+1. Add a review gate to `run_optimizer` in `app/loop.py`.
+
+## Evaluation
+
+1. **Validates R1**: `pytest -k optimizer_gate` asserts the optimizer blocks on a failing review.
+"""
+
 # A prose Anchor must be flagged (WARN) as not addressable.
 ANCHOR_PROSE = """**Epic:** Platform
 **Title:** Wire the rate limiter into the login route
@@ -581,6 +613,10 @@ def main():
     # METRIC false-negative: a bare issue id must not launder a vague verb.
     check("vague_with_id still flags vague-verb", "vague-verb" in codes(VAGUE_WITH_ID))
     check("good_optimize accepts an adjacent metric", "vague-verb" not in codes(GOOD_OPTIMIZE))
+
+    # Noun compounds are terms of art, not vague action verbs.
+    check("noun_compound does not flag vague-verb", "vague-verb" not in codes(NOUN_COMPOUND))
+    check("noun_compound has no errors", not errors(NOUN_COMPOUND))
 
     # Anchor: prose warns, a good-shaped anchor does not.
     check("anchor_prose warns anchor-shape", "anchor-shape" in warn_codes(ANCHOR_PROSE))

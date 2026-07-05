@@ -41,7 +41,14 @@ TITLE_FIELD = re.compile(r"^\s*\*\*\s*(Title|Parent|Epic|Type|Anchor)\s*:?\s*\*\
 # scan too.
 STORY_BULLET = re.compile(r"^\s*([-*]|\d+\.)\s+\S")
 
-VAGUE_VERBS = re.compile(r"\b(improv\w*|enhanc\w*|optimiz\w*)\b", re.IGNORECASE)
+# Vague ACTION verbs only, not their noun forms. "self-improvement", "optimizer",
+# and "evaluator-optimizer" are terms of art, not vague actions, and must not fire
+# (the old `improv\w*|optimiz\w*` matched the nouns and blocked real issues).
+VAGUE_VERBS = re.compile(
+    r"\b(improve|improves|improving|enhance|enhances|enhancing"
+    r"|optimi[sz]e|optimi[sz]es|optimi[sz]ing)\b",
+    re.IGNORECASE,
+)
 # A real target metric: a percentage, a pNN latency marker, a comparison bound,
 # or a number bound to a unit. A bare integer (a version, issue id, port, or
 # line number) is NOT a metric, so "Improve auth (blocks PROJ-19)" no longer
