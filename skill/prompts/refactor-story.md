@@ -95,6 +95,7 @@ Skeleton:
 Drafted as a refactor story because the change preserves behavior and touches a single surface. Alternative was a hardening ticket; rejected because the issues here aren't defects in the current code: it just doesn't scale.
 
 **Title:** <title>
+**Epic:** <parent epic, or `none` for a deliberately standalone refactor>
 **Anchor:** <the new file/function being introduced>
 **Labels:** <domain>, tech-debt
 **Priority:** Low

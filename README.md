@@ -2,7 +2,7 @@
 
 A portable Claude Code skill that captures a tight, repeatable Linear issue writing style, designed to be applied to any Linear workspace.
 
-The issue is treated as a compiler input, not an essay: an autonomous execution pipeline reads it (a planner, a held-out probe that writes a frozen test from the title plus Requirements plus Evaluation, an implementer, a reviewer, a merge gate), so concreteness is the product. Every pattern in this repo is grounded in real shipped issues, not invented. The canonical exemplars are quoted verbatim (with workspace identifiers anonymized) in `skill/references/06-canonical-examples.md`.
+The issue is treated as a compiler input, not an essay: an autonomous execution pipeline reads it (a planner, a held-out probe that writes a frozen test from a Story's title plus Requirements and Evaluation, or a Task's Problem and Verification, an implementer, a reviewer, a merge gate), so concreteness is the product. Every pattern in this repo is grounded in real shipped issues, not invented. The canonical exemplars are quoted verbatim (with workspace identifiers anonymized) in `skill/references/06-canonical-examples.md`.
 
 ## What's in the box
 
@@ -33,7 +33,7 @@ skill/
 | **Epic** | `Epic: <Domain>` | Goal · Outcomes · Out of scope · Stories under this epic |
 | **Story** | imperative verb + concrete deliverable, or `<Role> — <Capability>` | (epic backlink) · Anchor · User Story · Problem · Solution · Out of scope · Requirements · Evaluation |
 | **Hardening** | `Harden <file.ts>: <symptom1>, <symptom2>, <symptom3>` | Summary · Issues (numbered, each with **Fix:** + **Verify:**) |
-| **Task** | `Bug:` / `Chore:` / `Spike:` (or set `**Type:**`) | Anchor · Problem · Verification |
+| **Task** | `Bug:` / `Chore:` / `Spike:` / `Ops:` (or set `**Type:**`) | Anchor · Problem · Verification |
 
 Every **Story** and **Task** carries an **Anchor**: one machine-resolvable target (`file.ext:line`, `file.ext:symbol`, `module.function`, `METHOD /path -> status`, or `playwright:selector`) that the held-out probe binds to.
 

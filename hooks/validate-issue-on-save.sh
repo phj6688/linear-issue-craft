@@ -64,7 +64,9 @@ MODE="${LINEAR_ISSUE_GATE_MODE:-observe}"
 HOOK_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")" && pwd)
 VALIDATOR="${LINEAR_ISSUE_GATE_VALIDATOR:-$HOOK_DIR/../skill/scripts/validate_issue.py}"
 [ -r "$VALIDATOR" ] || allow
-EXEMPT="${LINEAR_ISSUE_GATE_EXEMPT:-human,eval}"
+# Lowercased so a mixed-case override (e.g. "Human,Eval") still matches the
+# label names, which are compared in lowercase.
+EXEMPT=$(printf '%s' "${LINEAR_ISSUE_GATE_EXEMPT:-human,eval}" | tr '[:upper:]' '[:lower:]')
 LOG="${LINEAR_ISSUE_GATE_LOG:-${TMPDIR:-/tmp}/linear-issue-gate.log}"
 
 # Reconstruct a validator-shaped document from the create payload. Linear stores

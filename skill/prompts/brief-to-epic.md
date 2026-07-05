@@ -100,8 +100,9 @@ I'm proposing **<N> child stories** under this epic. Archetype is **<epic vs. pe
 ## Story 1 of N
 
 **Title:** <story title>
+**Epic:** <parent epic name, the validator-readable backlink in the body>
 **Anchor:** <file.ext:line | file.ext:symbol | module.function | METHOD /path -> status | playwright:selector>
-**Parent:** <Epic name>
+**Parent:** <Epic name, the Linear parent field>
 **Labels:** <domain>, <capability(ies)>
 **Priority:** <High/Medium/Low>
 

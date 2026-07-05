@@ -31,15 +31,19 @@ bad_update()     { jq -nc --arg d "$BAD_BODY"      '{tool_name:"mcp__linear__sav
 missing_anchor() { jq -nc --arg d "$NOANCHOR_BODY" '{tool_name:"mcp__linear__save_issue",tool_input:{title:"Wire structured logging into the api",description:$d,labels:["api","tech-debt"],priority:3}}'; }
 governance()     { jq -nc --arg d "$BAD_BODY"      '{tool_name:"mcp__linear__save_issue",tool_input:{title:"Decide bourse: wire or decommission",description:$d,labels:["human","eval"]}}'; }
 
-[ "$(bad_create | decide observe)" = "allow" ]     && ok || bad "observe allows bad create"
-[ "$(bad_create | decide enforce)" = "deny" ]      && ok || bad "enforce denies bad create"
-[ "$(good_create | decide enforce)" = "allow" ]    && ok || bad "enforce allows good create"
-[ "$(bad_update | decide enforce)" = "allow" ]     && ok || bad "enforce ignores updates"
-[ "$(missing_anchor | decide enforce)" = "deny" ]  && ok || bad "enforce blocks missing anchor on create"
-[ "$(governance | decide enforce)" = "allow" ]     && ok || bad "enforce exempts governance labels"
+assert() { # $1 = expected, $2 = actual, $3 = name
+  if [ "$2" = "$1" ]; then ok; else bad "$3 (expected $1, got $2)"; fi
+}
+
+assert allow "$(bad_create    | decide observe)" "observe allows bad create"
+assert deny  "$(bad_create    | decide enforce)" "enforce denies bad create"
+assert allow "$(good_create   | decide enforce)" "enforce allows good create"
+assert allow "$(bad_update    | decide enforce)" "enforce ignores updates"
+assert deny  "$(missing_anchor | decide enforce)" "enforce blocks missing anchor on create"
+assert allow "$(governance    | decide enforce)" "enforce exempts governance labels"
 
 bad_create | LINEAR_ISSUE_GATE_MODE=observe bash "$HOOK" >/dev/null
-grep -q 'would-block(observe)' "$LOG" && ok || bad "observe logs would-block"
+if grep -q 'would-block(observe)' "$LOG"; then ok; else bad "observe logs would-block"; fi
 
 printf '\n%d passed, %d failed\n' "$pass" "$fail"
 rm -f "$LOG"
