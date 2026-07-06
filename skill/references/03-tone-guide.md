@@ -66,10 +66,11 @@ Imitate the rhythm: subject + must + comma-list of obligations.
 | Issue type | Body length | Sections |
 |---|---|---|
 | Epic | 200–500 words | Goal · Outcomes · Out of scope · Stories under this epic |
-| Story (simple) | 100–250 words | Epic backlink · User Story · Problem · Solution · Requirements (3–4) · Evaluation (3–4) |
+| Story (simple) | 100–250 words | Epic backlink · Anchor · User Story · Problem · Solution · Out of scope · Requirements (3–4) · Evaluation (3–4) |
 | Story (complex infra) | 250–500 words | Same sections, denser Requirements (5–6) |
-| Story (bundled-concept) | 300–600 words | Epic backlink · User Story · Problem (intro) · Concept blocks (each with bolded **Problem:** + **Solution:**) · Why bundled · Requirements · Evaluation |
-| Hardening | 200–400 words | Summary · Issues (3–5 numbered items) |
+| Story (bundled-concept) | 300–600 words | Epic backlink · Anchor · User Story · Problem (intro) · Concept blocks (each with bolded **Problem:** + **Solution:**) · Why bundled · Requirements · Evaluation |
+| Hardening | 200–400 words | Summary · Issues (3–5 numbered items, each with **Fix:** + **Verify:**) |
+| Task (bug/chore/spike) | 40–120 words | Type · Anchor · Problem · Verification |
 
 Going past 500 words is a code smell: you're probably bundling two issues.
 

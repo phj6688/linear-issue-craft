@@ -42,11 +42,11 @@ The most common ways AI-drafted Linear issues drift away from this style. Each r
 **In-style fix:** every Evaluation item names which Requirements it validates.
 > 1. **Validates R1 + R2**: A test call from `api/` shows up in the Helicone dashboard within 10s with model, tokens, and cost; `rg "from 'openai'"` outside `openai-client.ts` returns zero hits.
 
-### Missing soak / integration check
-**AI default:** All Evaluation items are unit-style.
+### Unobservable acceptance closer
+**AI default:** The last Evaluation item leans on something no headless stage can run: `A 24h soak in staging shows zero "fallback to direct OpenAI" log lines.`
 
-**In-style fix:** the last item is always a holistic integration check.
-> 4. **Validates all**: A 24h soak in staging shows zero "fallback to direct OpenAI" log lines.
+**In-style fix:** the last item is a holistic check runnable headless against the checkout, exercising the real seam (not a stub of the thing under test). Push the soak to a `## Post-ship follow-up` line.
+> 4. **Validates all**: `pytest api/tests/test_openai_client.py` passes and `rg "from 'openai'"` outside `openai-client.ts` returns zero hits.
 
 ### Section name drift ("Acceptance Criteria" instead of "Evaluation")
 **Signal:** Story ends with `## Acceptance Criteria` instead of `## Evaluation`.
@@ -103,7 +103,15 @@ The most common ways AI-drafted Linear issues drift away from this style. Each r
 
 ### Story without "Epic:" backlink
 **Signal:** The story stands alone with no parent reference.
-**Fix:** Add `**Epic:** <Epic name>` as the first line of the body. Linear's parent relation alone is not enough: PR descriptions and exports lose it.
+**Fix:** Add `**Epic:** <Epic name>` as the first line of the body (Linear's parent relation alone is not enough: PR descriptions and exports lose it). If the story is genuinely standalone, write `**Epic:** none` so the omission is deliberate, not an oversight. The validator warns on a missing backlink; it does not block.
+
+### Missing Anchor
+**Signal:** A story or task has no `**Anchor:**` line, or the anchor is prose ("the auth flow").
+**Fix:** Name one machine-resolvable target: `file.ext:line`, `file.ext:symbol`, `module.function`, `METHOD /path -> status`, or `playwright:selector`. The held-out probe binds to this; a probe cannot test a thing the issue never named.
+
+### Story with no Out-of-scope
+**Signal:** A story lists Requirements but never says what it is *not* doing.
+**Fix:** Add a `## Out of scope` bullet naming one non-goal. The implementer is an autonomous agent and will gold-plate past the intended scope without an explicit boundary.
 
 ## Labels / priority
 

@@ -9,6 +9,7 @@ from validate_issue import validate_text  # noqa: E402
 
 GOOD_STORY = """**Epic:** AI Foundation / Platform infra
 **Title:** Add Helicone proxy for all OpenAI calls with cost + latency dashboard
+**Anchor:** api/src/lib/openai-client.ts:getOpenAIClient
 **Labels:** `api`, `ai`
 **Priority:** No priority
 
@@ -24,6 +25,10 @@ Today every OpenAI call in `api/src/` imports the raw `openai` SDK and hits the 
 
 Add Helicone as a transparent proxy in front of OpenAI. The existing caller imports a small `getOpenAIClient()` wrapper. This is one config change, no business-logic refactor.
 
+## Out of scope
+
+* The moderation service's own retry policy; that stays as-is.
+
 ## Requirements
 
 1. Create `api/src/lib/openai-client.ts` exporting `getOpenAIClient()` configured with `baseURL: https://oai.helicone.ai/v1`.
@@ -32,7 +37,253 @@ Add Helicone as a transparent proxy in front of OpenAI. The existing caller impo
 ## Evaluation
 
 1. **Validates R1**: A test call from `api/` shows up in the Helicone dashboard within 10s.
-2. **Validates all**: A 24h soak in staging shows zero fallback log lines.
+2. **Validates all**: `pytest api/tests/test_openai_client.py` passes and `rg "from 'openai'"` outside the wrapper returns zero hits.
+"""
+
+# A story with no parent epic (a standalone refactor). The **Epic:** none
+# sentinel is deliberate; it must not error.
+STANDALONE_STORY = """**Epic:** none
+**Title:** Refactor the pricing module in the api service
+**Anchor:** api/src/pricing.ts:computePrice
+**Labels:** `api`, `tech-debt`
+
+## User Story
+
+As a developer, I want the pricing module split by concern, so that changes stay local.
+
+## Problem
+
+Today `api/src/pricing.ts` mixes tax, discount, and rounding in one function.
+
+## Solution
+
+Split into three pure helpers behind the same signature. No behavior change.
+
+## Out of scope
+
+* New pricing rules; this is a structure-only refactor.
+
+## Requirements
+
+1. Extract `applyTax`, `applyDiscount`, `roundPrice` from `computePrice`.
+
+## Evaluation
+
+1. **Validates R1**: `pytest api/tests/test_pricing.py` passes with identical outputs.
+"""
+
+# A lightweight Bug/Chore/Spike. Type header selects the minimal shape: no
+# persona, no requirement->evaluation mapping, but an Anchor and a runnable
+# Verification are still required.
+GOOD_TASK = """**Type:** Bug
+**Title:** Fix drag reset on pointerup in the 3D graph
+**Anchor:** web/components/graph-3d.tsx:657
+**Labels:** `web`, `ui-ux`
+**Priority:** Medium
+
+## Problem
+
+`dragPinned` is set true on pointerdown but reset to false on pointerup (graph-3d.tsx:657), so a pinned node snaps back.
+
+## Verification
+
+`npx playwright test drag-pin` shows the node stays pinned after release.
+"""
+
+# Fenced code carrying a drift heading, an AI-tell word, and an em-dash. All of
+# it is quoted source, so none of it may fire.
+FENCE_NOISE = """**Epic:** Platform
+**Title:** Stand up the notifications service in the api
+**Anchor:** api/src/notify.ts:send
+**Labels:** `api`, `tech-debt`
+
+## User Story
+
+As a user, I want notifications, so that I stay informed.
+
+## Problem
+
+Today there is no notifications service in `api/`.
+
+## Solution
+
+Build a small `send()` module. One file.
+
+## Out of scope
+
+* Delivery retries.
+
+## Requirements
+
+1. Create `api/src/notify.ts` exporting `send()`.
+
+```md
+## Description
+This robust, comprehensive layer — with an em-dash — is the OLD template.
+```
+
+## Evaluation
+
+1. **Validates R1**: `pytest -k notify` passes.
+"""
+
+# A single story split by a mid-body `---`. The Requirements and Evaluation
+# after the rule must stay in the same block, not be dropped from validation.
+TAILDROP_STORY = """**Epic:** Platform
+**Title:** Wire structured logging into the api service
+**Anchor:** api/src/log.ts:logger
+**Labels:** `api`, `tech-debt`
+
+## User Story
+
+As an operator, I want JSON logs, so that I can query them.
+
+## Problem
+
+Today `api/` logs unstructured text to stdout.
+
+## Solution
+
+Add a pino logger. One module, no behavior change.
+
+## Out of scope
+
+* Log rotation.
+
+---
+
+## Requirements
+
+1. Add `api/src/log.ts` exporting a configured pino instance.
+
+## Evaluation
+
+1. **Validates R1**: `pytest -k logging` shows JSON on stdout.
+"""
+
+# "Improve auth (blocks PROJ-19)": the digit 19 must not launder the vague verb.
+VAGUE_WITH_ID = """**Epic:** Platform
+**Title:** Improve the login throttle on the api
+**Anchor:** api/src/login.ts:throttle
+**Labels:** `api`, `compliance`
+
+## User Story
+
+As a user, I want protection, so that my account is safe.
+
+## Problem
+
+Improve auth (blocks PROJ-19) is the only note today.
+
+## Solution
+
+Add a limiter. One middleware.
+
+## Out of scope
+
+* Captcha.
+
+## Requirements
+
+1. Add `rateLimit()`.
+
+## Evaluation
+
+1. **Validates R1**: 100 rapid `POST /login` return 429.
+"""
+
+# "Optimize ... p95 < 200ms": the metric is adjacent, so no vague-verb error.
+GOOD_OPTIMIZE = """**Epic:** Platform
+**Title:** Add an LRU cache to the search endpoint
+**Anchor:** api/src/search.ts:handleSearch
+**Labels:** `api`, `tech-debt`
+
+## User Story
+
+As a user, I want fast search, so that results feel instant.
+
+## Problem
+
+Today `/search` recomputes on every call.
+
+## Solution
+
+Optimize `/search` to p95 < 200ms on a 10k-event corpus with an LRU cache. One module.
+
+## Out of scope
+
+* Query-syntax changes.
+
+## Requirements
+
+1. Add an LRU cache to `handleSearch`.
+
+## Evaluation
+
+1. **Validates R1**: `pytest -k search_latency` asserts p95 < 200ms.
+"""
+
+# Noun compounds ("self-improvement", "evaluator-optimizer", "optimizer") are
+# terms of art, not vague action verbs, and must NOT fire vague-verb.
+NOUN_COMPOUND = """**Epic:** none
+**Title:** Wire the self-improvement loop into the evaluator-optimizer
+**Anchor:** app/loop.py:run_optimizer
+**Labels:** `ai`, `infra`
+
+## User Story
+
+As an operator, I want the gated self-improvement loop wired in, so that the optimizer proposes changes safely.
+
+## Problem
+
+Today `app/loop.py` runs the evaluator-optimizer pattern but the self-improvement loop is ungated; the optimizer writes with no review.
+
+## Solution
+
+Gate the optimizer behind the reviewer. One module.
+
+## Out of scope
+
+* Unattended self-improvement; the gate stays.
+
+## Requirements
+
+1. Add a review gate to `run_optimizer` in `app/loop.py`.
+
+## Evaluation
+
+1. **Validates R1**: `pytest -k optimizer_gate` asserts the optimizer blocks on a failing review.
+"""
+
+# A prose Anchor must be flagged (WARN) as not addressable.
+ANCHOR_PROSE = """**Epic:** Platform
+**Title:** Wire the rate limiter into the login route
+**Anchor:** the whole auth flow
+**Labels:** `api`, `compliance`
+
+## User Story
+
+As a user, I want brute-force protection, so that my account is safe.
+
+## Problem
+
+Today the login route has no throttle.
+
+## Solution
+
+Add a per-IP limiter. One middleware.
+
+## Out of scope
+
+* Captcha.
+
+## Requirements
+
+1. Add `rateLimit()` to the login route.
+
+## Evaluation
+
+1. **Validates R1**: 100 rapid `POST /login` return 429.
 """
 
 GOOD_EPIC = """**Title:** Epic: SEO & Discoverability
@@ -294,6 +545,16 @@ def codes(text):
     return {x.code for x in errors(text)}
 
 
+def warn_codes(text):
+    v, _ = validate_text(text)
+    return {x.code for x in v if x.level == "WARN"}
+
+
+def n_blocks(text):
+    _, n = validate_text(text)
+    return n
+
+
 def main():
     passed = failed = 0
 
@@ -322,6 +583,48 @@ def main():
     check("bad_ai_tell flags ai-tell", "ai-tell" in codes(BAD_AI_TELL))
     check("bad_epic_count flags epic-story-count", "epic-story-count" in codes(BAD_EPIC_COUNT))
     check("bad_eval_mapping flags eval-mapping", "eval-mapping" in codes(BAD_EVAL_MAPPING))
+
+    # New good drafts: zero errors.
+    for name, txt in [("standalone_story", STANDALONE_STORY), ("good_task", GOOD_TASK),
+                      ("fence_noise", FENCE_NOISE), ("taildrop_story", TAILDROP_STORY),
+                      ("good_optimize", GOOD_OPTIMIZE)]:
+        errs = errors(txt)
+        check(f"{name} has no errors", not errs)
+        if errs:
+            for e in errs:
+                print(f"      unexpected: L{e.line} [{e.code}] {e.message}")
+
+    # Standalone story: epic-backlink is a WARN, never an ERROR.
+    check("standalone_story does not error on epic-backlink",
+          "epic-backlink" not in codes(STANDALONE_STORY))
+
+    # Fence blindness: a drift heading / AI-tell / em-dash inside a code fence
+    # is quoted source and must not fire.
+    fence_codes = codes(FENCE_NOISE)
+    check("fence_noise ignores fenced section-drift", "section-drift" not in fence_codes)
+    check("fence_noise ignores fenced ai-tell", "ai-tell" not in fence_codes)
+    check("fence_noise ignores fenced em-dash", "em-dash" not in fence_codes)
+
+    # Mid-body `---` must not split a single issue; the tail stays validated.
+    check("taildrop_story is one block", n_blocks(TAILDROP_STORY) == 1)
+    check("taildrop_story keeps its tail sections",
+          "section-missing" not in codes(TAILDROP_STORY))
+
+    # METRIC false-negative: a bare issue id must not launder a vague verb.
+    check("vague_with_id still flags vague-verb", "vague-verb" in codes(VAGUE_WITH_ID))
+    check("good_optimize accepts an adjacent metric", "vague-verb" not in codes(GOOD_OPTIMIZE))
+
+    # Noun compounds are terms of art, not vague action verbs.
+    check("noun_compound does not flag vague-verb", "vague-verb" not in codes(NOUN_COMPOUND))
+    check("noun_compound has no errors", not errors(NOUN_COMPOUND))
+
+    # Anchor: prose warns, a good-shaped anchor does not.
+    check("anchor_prose warns anchor-shape", "anchor-shape" in warn_codes(ANCHOR_PROSE))
+    check("good_story has a clean anchor", "anchor-shape" not in warn_codes(GOOD_STORY))
+    check("good_story does not warn anchor-missing", "anchor-missing" not in warn_codes(GOOD_STORY))
+
+    # The undischargeable labels-verify WARN is gone.
+    check("labels-verify WARN retired", "labels-verify" not in warn_codes(GOOD_STORY))
 
     print(f"\n{passed} passed, {failed} failed")
     return 1 if failed else 0

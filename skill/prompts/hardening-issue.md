@@ -5,7 +5,7 @@ Use this when the user gives you a list of issues in a single file or service ("
 ## When to use one Hardening ticket vs. multiple stories
 
 - **One Hardening ticket:** 2+ issues, all in one file or service, all of similar archetype (mostly defensive code / log leaks / input validation / fail-open paths).
-- **Separate stories:** issues span multiple files or services, OR one of the issues is large enough to need its own User Story + Requirements + AC.
+- **Separate stories:** issues span multiple files or services, OR one of the issues is large enough to need its own User Story + Requirements + Evaluation.
 
 If unsure: if the fix for each issue is ≤ 1 line of code or one config edit, bundle them as Hardening. Otherwise split into stories.
 
@@ -56,15 +56,19 @@ Use the Hardening template from `references/02-description-templates.md`:
 <2–4 sentences explaining the bug.>
 
 **Fix:** <one-line proposed fix>
+**Verify:** <one runnable check with expected output, e.g. `pytest -k fail_closed` asserts a blocked result on API error>
 
 ### 2\. <Symptom name> (lines <range>)
 
 <…>
 
 **Fix:** <…>
+**Verify:** <…>
 
 (repeat for each numbered issue)
 ```
+
+A hardening ticket has no Requirements section, so the `**Verify:**` line is the per-issue testable contract the downstream reviewer and held-out probe read. Keep it runnable headless (a command plus expected output), not a soak or a manual click-through.
 
 ## Step 5: Labels and priority
 
@@ -89,7 +93,7 @@ Drafted as a single Hardening ticket because all <N> issues live in `<file>` and
 
 ## Common mistakes to avoid
 
-- **Missing per-issue `**Fix:**` line.** Every numbered issue must end with a Fix callout. Without it the ticket is just a bug list.
+- **Missing per-issue `**Fix:**` or `**Verify:**` line.** Every numbered issue ends with a Fix callout and a runnable Verify line. Without the Fix it is just a bug list; without the Verify the downstream reviewer and probe have no acceptance to check.
 - **Mixing security and non-security issues without flagging.** If you bundle both, the Summary's severity calibration must call this out explicitly ("Issues 1–2 are security; issues 3–4 are defensive cleanup.").
 - **Generic symptom names.** "Bug in input handling" is rejected. "No upper-bound length check on text input" is accepted.
 - **Inventing line numbers.** Include `(lines X-Y)` in the issue header when the source gives them; reviewers scan for them. If the input has no line numbers, omit them rather than fabricating ranges.
