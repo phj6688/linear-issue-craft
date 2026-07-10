@@ -26,6 +26,10 @@ skill/
     └── issue-reviewer.md         Gate 3: independent reviewer subagent template
 ```
 
+## Flow diagram
+
+`docs/linear-issue-craft-flow.drawio` is a one-page map of what the skill does end to end: trigger, classify the archetype and detect the mode, draft, clear the gates (or the save-hook in headless mode), then file. It also shows the downstream compiler pipeline the issue feeds and the nine golden rules. Open it at [app.diagrams.net](https://app.diagrams.net) or with the draw.io VS Code extension.
+
 ## The archetypes
 
 | Archetype | Title shape | Body sections |
