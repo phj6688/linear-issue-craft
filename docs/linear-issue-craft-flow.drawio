@@ -1,0 +1,246 @@
+<mxfile host="app.diagrams.net" agent="linear-issue-craft" version="24.7.5">
+  <diagram name="Linear Issue Craft flow" id="lic-flow-1">
+    <mxGraphModel dx="1422" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="2480" math="0" shadow="0" background="#15120b">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Linear Issue Craft: what happens when you use the skill" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontColor=#f0a82a;fontSize=22;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="24" width="1240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Draft a Linear issue as a compiler input, gate it hard, then file it. Amber = start / file, diamonds = decisions, dashed = notes." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontColor=#c9772b;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="66" width="1240" height="22" as="geometry" />
+        </mxCell>
+
+        <mxCell id="band1" value="1  &#183;  TRIGGER  &#183;  what invokes the skill" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1610;strokeColor=#3a3320;fontColor=#f0a82a;verticalAlign=top;align=left;fontStyle=1;fontSize=14;spacingLeft=16;spacingTop=10;arcSize=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="1240" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="band2" value="2  &#183;  CLASSIFY  &#183;  identify the archetype, detect the mode" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1610;strokeColor=#3a3320;fontColor=#f0a82a;verticalAlign=top;align=left;fontStyle=1;fontSize=14;spacingLeft=16;spacingTop=10;arcSize=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="228" width="1240" height="620" as="geometry" />
+        </mxCell>
+        <mxCell id="band3" value="3  &#183;  DRAFT the issue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1610;strokeColor=#3a3320;fontColor=#f0a82a;verticalAlign=top;align=left;fontStyle=1;fontSize=14;spacingLeft=16;spacingTop=10;arcSize=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="864" width="1240" height="156" as="geometry" />
+        </mxCell>
+        <mxCell id="band4" value="4  &#183;  VALIDATE  &#183;  clear the gates before you show or file" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1610;strokeColor=#3a3320;fontColor=#f0a82a;verticalAlign=top;align=left;fontStyle=1;fontSize=14;spacingLeft=16;spacingTop=10;arcSize=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1036" width="1240" height="744" as="geometry" />
+        </mxCell>
+        <mxCell id="band5" value="5  &#183;  FILE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1610;strokeColor=#3a3320;fontColor=#f0a82a;verticalAlign=top;align=left;fontStyle=1;fontSize=14;spacingLeft=16;spacingTop=10;arcSize=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1796" width="1240" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="band6" value="WHY IT&#8217;S THIS STRICT  &#183;  the issue is a compiler input, not an essay (the downstream pipeline that reads it)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#141821;strokeColor=#33404d;fontColor=#8fb3cc;verticalAlign=top;align=left;fontStyle=1;fontSize=14;spacingLeft=16;spacingTop=10;arcSize=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1956" width="1240" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="band7" value="GOLDEN RULES  &#183;  applied to every issue, every archetype" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a1610;strokeColor=#3a3320;fontColor=#f0a82a;verticalAlign=top;align=left;fontStyle=1;fontSize=14;spacingLeft=16;spacingTop=10;arcSize=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="2164" width="1240" height="252" as="geometry" />
+        </mxCell>
+
+        <mxCell id="start" value="User: &#8220;draft an issue&#8221; &#183; &#8220;open an epic&#8221; &#183; &#8220;file a ticket&#8221; &#183; &#8220;write a Linear issue&#8221;&#10;(or pastes a rough idea / bug report and asks to file it)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a82a;strokeColor=#c9772b;fontColor=#15120b;fontStyle=1;fontSize=13;arcSize=45;" vertex="1" parent="1">
+          <mxGeometry x="360" y="132" width="600" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="q1" value="Scoped to ONE PR&#10;+ one acceptance test?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#2a2012;strokeColor=#c9772b;fontColor=#f0a82a;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="286" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="modenote" value="MODE  (read from the invocation, not the mood of the request)&#10;&#10;&#8226;  Interactive: a human reads each draft&#10;&#8226;  Headless / pipeline: a subagent, or a batch handed&#10;&#160;&#160;&#160;&#160;straight to the execution pipeline&#10;&#10;&#8594; decides which gates apply below (see step 4)" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#22201a;strokeColor=#8a7a4a;fontColor=#cabf9f;fontSize=11;align=left;spacingLeft=12;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="852" y="278" width="398" height="132" as="geometry" />
+        </mxCell>
+
+        <mxCell id="q3" value="ONE file with&#10;a list of bugs?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#2a2012;strokeColor=#c9772b;fontColor=#f0a82a;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="452" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="q2" value="Covers 2 to 8 sub-pieces&#10;sharing infra / a domain?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#2a2012;strokeColor=#c9772b;fontColor=#f0a82a;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="908" y="452" width="262" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="q4" value="Needs the full Story ceremony?&#10;(persona + Requirements&#8594;Evaluation map)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#2a2012;strokeColor=#c9772b;fontColor=#f0a82a;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="428" y="596" width="254" height="104" as="geometry" />
+        </mxCell>
+
+        <mxCell id="anchornote" value="ANCHOR  &#183;  on every Story &amp; Task&#10;one machine-resolvable target:&#10;file.ext:line &#183; file.ext:symbol &#183; module.function&#10;METHOD /path &#8594; status &#183; playwright:selector&#10;&#8594; the held-out probe binds to THIS line" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#22201a;strokeColor=#8a7a4a;fontColor=#cabf9f;fontSize=11;align=left;spacingLeft=12;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="724" y="566" width="420" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hardening" value="HARDENING&#10;Harden &lt;file&gt;: sym1, sym2&#8230;&#10;Summary &#183; Issues (Fix: + Verify:)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#241d12;strokeColor=#c9772b;fontColor=#ece0c8;fontSize=11;fontStyle=1;align=center;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="104" y="728" width="192" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="story" value="STORY&#10;one PR &#183; one acceptance test&#10;Anchor &#183; User Story &#183; &#8230; &#183; Evaluation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#241d12;strokeColor=#c9772b;fontColor=#ece0c8;fontSize=11;fontStyle=1;align=center;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="430" y="728" width="192" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="task" value="TASK&#10;small bug / chore / spike / ops&#10;Anchor &#183; Problem &#183; Verification" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#241d12;strokeColor=#c9772b;fontColor=#ece0c8;fontSize=11;fontStyle=1;align=center;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="636" y="728" width="192" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="epic" value="EPIC&#10;2 to 8 child stories&#10;Goal &#183; Outcomes &#183; Stories" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#241d12;strokeColor=#c9772b;fontColor=#ece0c8;fontSize=11;fontStyle=1;align=center;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="906" y="728" width="192" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="decompose" value="STOP&#10;Decompose into&#10;sibling issues first" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3a1512;strokeColor=#e0603a;fontColor=#f6d8cf;fontSize=11;fontStyle=1;align=center;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1108" y="728" width="150" height="66" as="geometry" />
+        </mxCell>
+
+        <mxCell id="draft" value="Draft the issue&#10;&#8226;  open prompts/*.md  &#183;  brief-to-epic &#183; hardening-issue &#183; refactor-story&#10;&#8226;  pull references/*.md  &#183;  titles &#183; templates &#183; tone &#183; labels &#183; anti-patterns &#183; examples&#10;&#8226;  write:  Title &#183; Body sections &#183; Anchor &#183; Labels (1 domain + &#8805;1 capability) &#183; Priority &#183; Estimate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#211b10;strokeColor=#6b5a2e;fontColor=#ece0c8;fontSize=12;align=left;spacingLeft=14;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="300" y="902" width="720" height="96" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gate1" value="GATE 1  &#183;  Mechanical validator  &#183;  HARD GATE (both modes)&#10;python3 scripts/validate_issue.py &lt;draft&gt;&#160;&#160;&#8594;&#160;&#160;must exit 0&#10;ERROR: em-dash in prose &#183; vague verb w/o adjacent metric &#183; AI tells&#10;&#160;&#160;&#160;&#183; wrong section names/order &#183; missing **Fix:** &#183; epic count (2 to 8) &#183; label shape&#10;WARN (read each): missing/prose Anchor &#183; no non-goal &#183; unobservable acceptance &#183; off-enum priority" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#33260f;strokeColor=#f0a82a;strokeWidth=2;fontColor=#f4ead2;fontSize=12;align=left;spacingLeft=14;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1072" width="720" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="modeq" value="Interactive&#10;or headless?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#2a2012;strokeColor=#c9772b;fontColor=#f0a82a;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="540" y="1236" width="240" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gate2" value="GATE 2  &#183;  Judgment checks  (you, not the script)&#10;&#10;&#10003; concrete title&#160;&#160;&#10003; diagnosis verified by grep&#10;&#10003; real persona&#160;&#160;&#10003; real labels (list_issue_labels)&#10;&#10003; exactly one PR of scope&#160;&#160;&#10003; archetype is right" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#241d12;strokeColor=#8a6a2e;fontColor=#ece0c8;fontSize=11;align=left;spacingLeft=12;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1392" width="430" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="gate3" value="GATE 3  &#183;  Independent issue-reviewer subagent&#10;a fresh agent re-verifies every claim against the real code&#10;(catches false &#8220;already done&#8221;, wrong file:line, half-done sweep)&#10;verdict:  File as-is &#183; Fix before filing &#183; Decompose first" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#241d12;strokeColor=#8a6a2e;fontColor=#ece0c8;fontSize=11;align=left;spacingLeft=12;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1532" width="430" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="showuser" value="Show the user the draft + a 3-sentence note&#10;(why this archetype &#183; what the review found)&#10;file ONLY on explicit approval" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#211b10;strokeColor=#6b5a2e;fontColor=#ece0c8;fontSize=11;align=left;spacingLeft=12;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1672" width="430" height="74" as="geometry" />
+        </mxCell>
+
+        <mxCell id="headless" value="HEADLESS / pipeline mode&#10;&#8226;  per-issue draft-approval + per-issue Gate 3  &#8594;  DROPPED&#10;&#160;&#160;&#160;&#160;(no human is reading each draft)&#10;&#8226;  Gate 1 still runs on every issue&#10;&#8226;  save-hook enforces Gate 1 at the tool boundary&#10;&#160;&#160;&#160;&#160;(PreToolUse; fires for subagent tool calls too)&#10;&#8226;  at most ONE batch review over the whole set" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1d2620;strokeColor=#5a7a5e;fontColor=#cfe0d2;fontSize=11;align=left;spacingLeft=12;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="800" y="1392" width="440" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="invariant" value="INVARIANT (both modes)&#10;no save_issue without&#10;a clean Gate 1&#10;on that issue&#8217;s body" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 4;fillColor=#33260f;strokeColor=#f0a82a;fontColor=#f4ead2;fontSize=12;fontStyle=1;align=center;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="548" y="1600" width="224" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="save" value="save_issue  (Linear MCP)&#10;the PreToolUse save-hook re-checks Gate 1 on every create&#10;&#8594; no unchecked issue can be filed, even under load" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a82a;strokeColor=#c9772b;fontColor=#15120b;fontStyle=1;fontSize=12;arcSize=30;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1832" width="560" height="76" as="geometry" />
+        </mxCell>
+
+        <mxCell id="planner" value="Planner&#10;builds the wave DAG&#10;from blocked-by relations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a2029;strokeColor=#3d4a58;fontColor=#c4d6e2;fontSize=11;align=left;spacingLeft=8;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="70" y="2004" width="204" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="probe" value="Held-out probe&#10;writes a frozen test from&#10;Title + Requirements + Evaluation&#10;(Story) / Problem + Verification&#10;(Task) &#183; never sees the repo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a2029;strokeColor=#3d4a58;fontColor=#c4d6e2;fontSize=11;align=left;spacingLeft=8;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="298" y="2004" width="234" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="implementer" value="Implementer&#10;writes code to satisfy&#10;the Requirements" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a2029;strokeColor=#3d4a58;fontColor=#c4d6e2;fontSize=11;align=left;spacingLeft=8;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="556" y="2004" width="204" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="reviewer" value="Reviewer&#10;rubric = the issue&#8217;s&#10;Requirements section" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a2029;strokeColor=#3d4a58;fontColor=#c4d6e2;fontSize=11;align=left;spacingLeft=8;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="784" y="2004" width="204" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="mergegate" value="Merge gate&#10;the frozen probe&#10;must pass" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a2029;strokeColor=#3d4a58;fontColor=#c4d6e2;fontSize=11;align=left;spacingLeft=8;arcSize=8;" vertex="1" parent="1">
+          <mxGeometry x="1012" y="2004" width="204" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="dnote" value="&#8594; so name a thing the probe can target (a file, an endpoint, a selector); it is worth more than a paragraph of intent." style="text;html=1;fillColor=none;strokeColor=none;fontColor=#8fb3cc;fontSize=11;align=center;" vertex="1" parent="1">
+          <mxGeometry x="70" y="2102" width="1180" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gcol1" value="1 &#183; Concrete over abstract: name the file, function, endpoint, table, env var.&#10;&#10;2 &#183; Anchor every Story &amp; Task: one machine-resolvable target.&#10;&#10;3 &#183; Imperative verb first: Stand up &#183; Wire &#183; Harden &#183; Build &#183; Add &#183; Refactor." style="text;html=1;fillColor=none;strokeColor=none;fontColor=#dccca0;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="72" y="2210" width="395" height="196" as="geometry" />
+        </mxCell>
+        <mxCell id="gcol2" value="4 &#183; Diagnose current state first: open with &#8220;Today &#8230;&#8221; / &#8220;Currently &#8230;&#8221;.&#10;&#10;5 &#183; Acceptance runs headless: a command + its expected output (no stub).&#10;&#10;6 &#183; Reference past work: link ids/PRs; encode hard ordering as blocked-by." style="text;html=1;fillColor=none;strokeColor=none;fontColor=#dccca0;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="477" y="2210" width="395" height="196" as="geometry" />
+        </mxCell>
+        <mxCell id="gcol3" value="7 &#183; No em-dashes in prose (one exception: the role-prefixed title separator).&#10;&#10;8 &#183; Labels are layered: 1 domain + &#8805;1 capability, from the real taxonomy.&#10;&#10;9 &#183; Priority = category, not urgency (Urgent = an active incident only)." style="text;html=1;fillColor=none;strokeColor=none;fontColor=#dccca0;fontSize=11;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="882" y="2210" width="388" height="196" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;" edge="1" parent="1" source="start" target="q1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="yes: one PR + one test" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="q1" target="q3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="no" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="q1" target="q2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;" edge="1" parent="1" source="q3" target="hardening">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="no" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="q3" target="q4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;exitX=0.4;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="q4" target="story">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="no: too small" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="q4" target="task">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="q2" target="epic">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="no" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#e0603a;fontColor=#eaa88f;fontSize=11;endArrow=block;endFill=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="q2" target="decompose">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;endArrow=block;endFill=1;" edge="1" parent="1" source="hardening" target="draft">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;endArrow=block;endFill=1;" edge="1" parent="1" source="story" target="draft">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;endArrow=block;endFill=1;" edge="1" parent="1" source="task" target="draft">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;endArrow=block;endFill=1;" edge="1" parent="1" source="epic" target="draft">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;dashPattern=4 4;strokeColor=#8a7a4a;endArrow=open;endFill=0;" edge="1" parent="1" source="anchornote" target="task">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;endArrow=block;endFill=1;" edge="1" parent="1" source="draft" target="gate1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" value="any ERROR &#8594; fix &amp; re-run" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;dashPattern=6 4;strokeColor=#e0603a;fontColor=#eaa88f;fontSize=11;endArrow=block;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.6;entryDx=0;entryDy=0;" edge="1" parent="1" source="gate1" target="draft">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="264" y="1132" />
+              <mxPoint x="264" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e17" value="Gate 1 clean" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gate1" target="modeq">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" value="Interactive" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="modeq" target="gate2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;endArrow=block;endFill=1;" edge="1" parent="1" source="gate2" target="gate3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e20" value="Critical / Important:&#10;re-run G1 + G3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;dashPattern=6 4;strokeColor=#e0603a;fontColor=#eaa88f;fontSize=11;endArrow=block;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="gate3" target="gate1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="1584" />
+              <mxPoint x="60" y="1162" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e21" value="File as-is" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;" edge="1" parent="1" source="gate3" target="showuser">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22" value="Headless (subagent / batch)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="modeq" target="headless">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" value="approved" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;fontColor=#d8c79a;fontSize=11;endArrow=block;endFill=1;" edge="1" parent="1" source="showuser" target="save">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#9c8a5a;endArrow=block;endFill=1;" edge="1" parent="1" source="headless" target="save">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e25" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;dashPattern=2 4;strokeColor=#c9a24a;endArrow=open;endFill=0;" edge="1" parent="1" source="invariant" target="save">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#5f7688;endArrow=block;endFill=1;" edge="1" parent="1" source="planner" target="probe">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e27" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#5f7688;endArrow=block;endFill=1;" edge="1" parent="1" source="probe" target="implementer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e28" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#5f7688;endArrow=block;endFill=1;" edge="1" parent="1" source="implementer" target="reviewer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e29" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;orthogonalLoop=1;strokeColor=#5f7688;endArrow=block;endFill=1;" edge="1" parent="1" source="reviewer" target="mergegate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
