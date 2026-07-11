@@ -3,7 +3,7 @@
 ## Unreleased
 
 ### Added (flow diagram)
-- `docs/linear-issue-craft-flow.drawio`: a one-page draw.io map of the skill end to end (trigger, classify archetype + detect mode, draft, the three gates / save-hook, file), plus the downstream compiler pipeline it feeds and the nine golden rules. Themed to match the house palette. Linked from the README.
+- `docs/linear-issue-craft-flow.drawio`: a draw.io flowchart of the skill's core path (classify the archetype, draft, clear the gates or the headless save-hook, then file), built and render-verified with the drawio skill. Light theme, drawio-native palette, legend included. Linked from the README.
 
 ### Added (save-hook: weld the boundary)
 - `hooks/validate-issue-on-save.sh`: a Claude Code PreToolUse hook for `mcp__linear__save_issue` that runs the Gate-1 validator at the tool boundary, so the check cannot be skipped on the headless batch-filing path (a PreToolUse hook fires for subagent tool calls too). Create-only (an update with an `id` is left alone, so the pre-Anchor corpus is never orphaned); build-lane scoped (governance labels `human`/`eval` exempt); `observe` by default (logs would-blocks, allows) and `enforce` on an operator flip (denies with the validator's re-fileable output via `permissionDecision: deny`). Fails open on any unexpected input. On a create, a missing or prose-shaped Anchor is promoted from WARN to a block. `hooks/README.md` documents install + the operator-owned enforce flip (gated on a clean corpus replay); `hooks/test_hook.sh` covers the decision matrix (7 cases).
