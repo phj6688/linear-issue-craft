@@ -28,7 +28,7 @@ skill/
 
 ## Flow diagram
 
-`docs/linear-issue-craft-flow.drawio` is a one-page map of what the skill does end to end: trigger, classify the archetype and detect the mode, draft, clear the gates (or the save-hook in headless mode), then file. It also shows the downstream compiler pipeline the issue feeds and the nine golden rules. Open it at [app.diagrams.net](https://app.diagrams.net) or with the draw.io VS Code extension.
+`docs/linear-issue-craft-flow.drawio` is a draw.io flowchart of the skill's core path: classify the archetype (epic / story / hardening / task, or decompose), draft, clear the gates (Gate 1 validator, then Gate 2 and Gate 3 interactively, or the save-hook in headless mode), then file. Light theme, drawio-native palette, with a legend. Open it at [app.diagrams.net](https://app.diagrams.net) or with the draw.io VS Code extension.
 
 ## The archetypes
 
