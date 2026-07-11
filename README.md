@@ -28,7 +28,9 @@ skill/
 
 ## Flow diagram
 
-`docs/linear-issue-craft-flow.drawio` is a draw.io flowchart of the skill's core path: classify the archetype (epic / story / hardening / task, or decompose), draft, clear the gates (Gate 1 validator, then Gate 2 and Gate 3 interactively, or the save-hook in headless mode), then file. Light theme, drawio-native palette, with a legend. Open it at [app.diagrams.net](https://app.diagrams.net) or with the draw.io VS Code extension.
+![Linear Issue Craft skill flow](docs/linear-issue-craft-flow.png)
+
+The flowchart above maps the skill's core path: classify the archetype (epic / story / hardening / task, or decompose), draft, clear the gates (Gate 1 validator, then Gate 2 and Gate 3 interactively, or the save-hook in headless mode), then file. Light theme, drawio-native palette, with a legend. The source is `docs/linear-issue-craft-flow.drawio` (the PNG is a rendered preview); edit it at [app.diagrams.net](https://app.diagrams.net) or with the draw.io VS Code extension.
 
 ## The archetypes
 
